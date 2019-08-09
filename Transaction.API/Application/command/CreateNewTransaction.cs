@@ -7,6 +7,6 @@ namespace Transaction.API.Application.command
 {
     public class CreateNewTransaction
     {
-
+        public int MyProperty { get; set; }
     }
 }
