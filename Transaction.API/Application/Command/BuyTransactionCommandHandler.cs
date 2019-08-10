@@ -24,13 +24,18 @@ namespace Transaction.API.Application.Command
             _mediator = mediator;
             _logger = logger;
         }
+
+        public Task<bool> Handle(BuyTransactionCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
         //public Task<bool> Handle(BuyTransactionCommand request, CancellationToken cancellationToken)
         //{
         //    //throw new NotImplementedException();
         //   // var buyer = new Buyer(request.Id, request.Price, request.Quantity);
         //    foreach(var item in request.Buy)
         //    {
-                
+
         //    }
         //    // _logger.LogInformation("----- Creating Order - Order: {@Order}",buyer);
         //    throw Exception();
