@@ -20,21 +20,22 @@ namespace Transaction.API.Controllers
             
             try
             {
-                //logic type here.....
+                
             }
             catch
             {
             }
             return Ok();
+           
         }
 
-        [Route("sale")]
+        [Route("Sale")]
         [HttpPost]
-        public async Task<IActionResult> saleTrade([FromBody]string TransactionId)
+        public async Task<IActionResult> SaleTrade([FromBody] decimal Price,decimal Quantity)
         {
             try
             {
-                //logic
+               
             }
             catch
             {
