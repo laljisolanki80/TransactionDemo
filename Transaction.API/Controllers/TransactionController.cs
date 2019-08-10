@@ -9,20 +9,38 @@ namespace Transaction.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Transaction")]
+
+    //by lalji
     public class TransactionController : Controller
     {
-        [Route("CreateTransaction")]
+        [Route("Buy")]
         [HttpPost]
-        public async Task<IActionResult> CreateNewTransaction ([FromBody]int AccountId, string Name, int Amount)
+        public async Task<IActionResult> BuyTrade([FromBody] decimal Price,decimal Quantity)
         {
-            if (AccountId==null)
+            
+            try
             {
-
-                return BadRequest();
+                //logic
             }
-               return Ok("done");      
+            catch
+            {
+            }
+            return Ok();
         }
 
-      
+        [Route("sale")]
+        [HttpPost]
+        public async Task<IActionResult> saleTrade([FromBody]string TransactionId)
+        {
+            try
+            {
+                //logic
+            }
+            catch
+            {
+
+            }
+            return Ok();
+        }
     }
 }
