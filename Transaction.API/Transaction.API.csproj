@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Application\command\" />
+    <Folder Include="Application\Queries\" />
+    <Folder Include="Application\Validation\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
