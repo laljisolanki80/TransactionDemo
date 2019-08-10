@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Transaction.API.Application.Command;
 
 namespace Transaction.API.Controllers
 {
@@ -15,12 +16,10 @@ namespace Transaction.API.Controllers
     {
         [Route("Buy")]
         [HttpPost]
-        public async Task<IActionResult> BuyTrade([FromBody] decimal Price,decimal Quantity)
-        {
-            
+        public async Task<IActionResult> BuyTrade([FromBody]BuyTransactionCommand buyTransactionCommand)
+        {            
             try
             {
-                //logic type here.....
             }
             catch
             {

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Transaction.Domain.AggreagatesModels.BuyerAggregate;
 
 namespace Transaction.Infrastructure.Repository
 {
-    class BuyerRepository
+    public class BuyerRepository:IBuyerRepository
     {
     }
 }
