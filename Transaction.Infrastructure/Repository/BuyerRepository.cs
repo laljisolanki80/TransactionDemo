@@ -17,7 +17,6 @@ namespace Transaction.Infrastructure.Repository
         public Buyer Add(Buyer buyer)
         {
             return _buyerDbContext.Buyers.Add(buyer).Entity;
-
         }
         public async Task<Buyer> GetAsync(int buyerId)
         {
@@ -33,16 +32,6 @@ namespace Transaction.Infrastructure.Repository
             }
 
             return buyer;
-        }
-
-        Buyer IBuyerRepository.Add(Buyer buyer)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Buyer> IBuyerRepository.GetAsync(int buyerId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

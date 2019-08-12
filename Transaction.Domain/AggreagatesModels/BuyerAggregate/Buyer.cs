@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Transaction.Domain.Events;
@@ -10,6 +11,7 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
     public class Buyer:Entity,IAggregateRoot
     {
         //private DateTime _buyDate;
+        [Key]
         public int? GetBuyerId => _buyerId;
         private int? _buyerId;
         //private int _orderStatusId;
