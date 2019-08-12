@@ -22,6 +22,8 @@ namespace Transaction.API.Application.Command
         {
             _buyerRepository = buyerRepository;
             _mediator = mediator;
+
+
             _logger = logger;
         }
         public async Task<bool> Handle(BuyTransactionCommand request, CancellationToken cancellationToken)
