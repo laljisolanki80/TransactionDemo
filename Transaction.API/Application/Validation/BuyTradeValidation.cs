@@ -7,5 +7,7 @@ namespace Transaction.API.Application.Validation
 {
     public class BuyTradeValidation
     {
+        //by lalji
+
     }
 }
