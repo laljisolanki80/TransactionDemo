@@ -12,21 +12,7 @@ namespace Transaction.Infrastructure.Database
     {
         //add BuyerDbContext by Lalji 5:10PM 10/08/2019
         public BuyerDbContext(DbContextOptions<BuyerDbContext> options) : base(options) { }
-        public DbSet<Buyer> BuyerInformartions { get; set; }
-    }
-
-    [Table("BuyerInformartion", Schema = "dbo")]
-    public class Buyer
-    {
-        [Key] 
-        public int BuyerId { get; set; }
-
-        [Display(Name = "Price(INR)")]
-        public decimal Price{ get; set; }
-        public decimal  Amount{ get; set; }
-        public decimal Total { get; set; }
-        public int TransationStatus { get; set; }
-        [Timestamp]
-        public byte[] TimeStamps { get; set; }
+        public DbSet<BuyerInformartion> BuyerInformartions { get; set; }
+        public DbSet<Buyer> Buyers { get; set; }
     }
 }
