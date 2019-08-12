@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using Transaction.Domain.Events;
@@ -23,13 +25,12 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
             AddBuyStartedDomainEvent(id, price, quantity);
         }
 
-        private void AddBuyStartedDomainEvent(string id,decimal price, decimal quantity)
+        private void AddBuyStartedDomainEvent(string id, decimal price, decimal quantity)
         {
             var buyStartedDomainEvent = new BuyStartedDomainEvent(this, id, price, quantity);
             this.AddDomainEvent(buyStartedDomainEvent);
-           
+
         }
-        public
         public decimal GetTotal()
         {
             //example total should be 140 INR = 2 USD*70 INR by lalji
