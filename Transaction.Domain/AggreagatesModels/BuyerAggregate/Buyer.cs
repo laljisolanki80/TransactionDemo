@@ -7,12 +7,14 @@ using Transaction.Domain.SeedWork;
 
 namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
 {
-    public class Buyer:Entity
+    public class Buyer:Entity,IAggregateRoot
     {
         //private DateTime _buyDate;
         public int? GetBuyerId => _buyerId;
         private int? _buyerId;
         //private int _orderStatusId;
+        public BuyerTransactionStatus BuyerTransactionStatus { get; private set; }
+
         private readonly List<BuyerItem> _buyerItems;
         protected Buyer()
         { }
@@ -29,10 +31,11 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
             this.AddDomainEvent(buyStartedDomainEvent);
            
         }
-        public
+      
         public decimal GetTotal()
         {
             return _buyerItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
         }
+        //public void AddQuantity()
     }
 }

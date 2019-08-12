@@ -10,7 +10,7 @@ using Transaction.Infrastructure.Repository;
 
 namespace Transaction.API.Application.Command
 {
-    public class BuyTransactionCommandHandler : IRequestHandler<BuyTransactionCommand, bool>
+    public class BuyTransactionCommandHandler : IRequestHandler<BuyTransactionCommand,bool>
     {
         private readonly IBuyerRepository _buyerRepository;
         private readonly IMediator _mediator;
@@ -24,16 +24,18 @@ namespace Transaction.API.Application.Command
             _mediator = mediator;
             _logger = logger;
         }
-        public Task<bool> Handle(BuyTransactionCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(BuyTransactionCommand request, CancellationToken cancellationToken)
         {
             //throw new NotImplementedException();
             var buyer = new Buyer(request.Id.ToString(), request.Price, request.Quantity);
-            foreach (var item in request.BuyItem)
-            {
-                buyer.
-            }
+            //foreach (var item in request.BuyItem)
+            //{
+            //    buyer.
+            //}
             // _logger.LogInformation("----- Creating Order - Order: {@Order}",buyer);
-
+            _buyerRepository.Add(buyer);
+            return await _buyerRepository.UnitOfWork
+                .SaveEntitiesAsync();
         }
     }
 }

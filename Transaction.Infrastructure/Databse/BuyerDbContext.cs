@@ -9,9 +9,9 @@ namespace Transaction.Infrastructure.Database
 {
     public sealed class BuyerDbContext : DbContext
     {
-        public DbSet<Buyer> BuyerId  { get; set; }
+        public DbSet<Buyer> Buyers  { get; set; }
         public DbSet<Price> Prices { get; set; }
-        public DbSet<Amount> Amounts { get; set; }
+        public DbSet<Quantity> Quantities { get; set; }
         public DbSet<BuyerTransactionStatus> BuyerTransactionStatuses { get; set; }
         public DbSet<TimeStamp> TimeStamps { get; set; }
 
@@ -29,8 +29,8 @@ namespace Transaction.Infrastructure.Database
     {
         public  decimal Prices { get; set; }
     }
-    public class Amount
+    public class Quantity
     {
-        public decimal Amounts { get; set; }
+        public decimal Quantities { get; set; }
     }
 }
