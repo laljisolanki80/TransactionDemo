@@ -10,7 +10,7 @@ namespace Transaction.API.Application.Command
     public class BuyTransactionCommand : IRequest<bool>
     {
         [DataMember]
-        private readonly List<BuyDTO> _buy;
+        private readonly List<BuyDTO> _buyItem;
         [DataMember]
         public Guid Id { get; set; }
         [DataMember]
@@ -18,10 +18,10 @@ namespace Transaction.API.Application.Command
         [DataMember]
         public decimal Quantity { get; set; }
         [DataMember]
-        public IEnumerable<BuyDTO> Buy => _buy;
+        public IEnumerable<BuyDTO> BuyItem => _buyItem;
         public BuyTransactionCommand()
         {
-            _buy = new List<BuyDTO>();
+            _buyItem = new List<BuyDTO>();
         }
         public BuyTransactionCommand(Guid id,decimal price,decimal quantity)
         {

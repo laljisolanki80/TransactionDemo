@@ -9,10 +9,10 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
 {
     public class Buyer:Entity
     {
-        private DateTime _buyDate;
+        //private DateTime _buyDate;
         public int? GetBuyerId => _buyerId;
         private int? _buyerId;
-        private int _orderStatusId;
+        //private int _orderStatusId;
         private readonly List<BuyerItem> _buyerItems;
         protected Buyer()
         { }
@@ -25,11 +25,11 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
 
         private void AddBuyStartedDomainEvent(string id,decimal price, decimal quantity)
         {
-            //throw new NotImplementedException();
             var buyStartedDomainEvent = new BuyStartedDomainEvent(this, id, price, quantity);
             this.AddDomainEvent(buyStartedDomainEvent);
            
         }
+        public
         public decimal GetTotal()
         {
             //example total should be 140 INR = 2 USD*70 INR by lalji
