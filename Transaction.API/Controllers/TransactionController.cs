@@ -10,7 +10,7 @@ using Transaction.API.Application.Command;
 
 namespace Transaction.API.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/Transaction")]
 
     //by Akshay
@@ -20,12 +20,12 @@ namespace Transaction.API.Controllers
         private readonly ILogger<TransactionController> _logger;
         public TransactionController(IMediator mediator, ILogger<TransactionController> logger)
         {
-            _mediator = mediator;// ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [Route("BuyTrade")]
-        [HttpPost]
+        [HttpGet]
         public async Task<bool> BuyTrade([FromBody]BuyTransactionCommand buyTransactionCommand)
         {
             return await _mediator.Send(buyTransactionCommand);

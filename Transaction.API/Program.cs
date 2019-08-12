@@ -21,5 +21,6 @@ namespace Transaction.API
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
+
     }
 }

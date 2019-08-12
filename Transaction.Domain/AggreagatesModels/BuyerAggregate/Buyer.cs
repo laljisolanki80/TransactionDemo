@@ -15,7 +15,7 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
         public int? GetBuyerId => _buyerId;
         private int? _buyerId;
         //private int _orderStatusId;
-        public BuyerTransactionStatus BuyerTransactionStatus { get; private set; }
+       // public BuyerTransactionStatus BuyerTransactionStatus { get; private set; }
 
         private readonly List<BuyerItem> _buyerItems;
         protected Buyer()

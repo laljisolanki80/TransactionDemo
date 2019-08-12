@@ -11,9 +11,10 @@ using Transaction.Infrastructure.Database;
 namespace Transaction.Infrastructure.Migrations
 {
     [DbContext(typeof(BuyerDbContext))]
-    partial class BuyerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190812122526_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

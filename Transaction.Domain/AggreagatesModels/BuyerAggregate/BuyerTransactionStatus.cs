@@ -6,8 +6,7 @@ using Transaction.Domain.SeedWork;
 namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
 {
     public class BuyerTransactionStatus:Enumeration
-    {
-       
+    {       
         public static BuyerTransactionStatus success = new BuyerTransactionStatus(1, nameof(success).ToLowerInvariant());
         public static BuyerTransactionStatus PartialHold = new BuyerTransactionStatus(2, nameof(PartialHold).ToLowerInvariant());
         public static BuyerTransactionStatus SystemFailed = new BuyerTransactionStatus(3, nameof(SystemFailed).ToLowerInvariant());
