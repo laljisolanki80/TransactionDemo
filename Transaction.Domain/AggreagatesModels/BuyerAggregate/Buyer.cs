@@ -34,6 +34,7 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
       
         public decimal GetTotal()
         {
+            //example total should be 140 INR = 2 USD*70 INR by lalji
             return _buyerItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
         }
         //public void AddQuantity()

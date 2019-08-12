@@ -2,35 +2,31 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Transaction.Domain.AggreagatesModels.BuyerAggregate;
 
 namespace Transaction.Infrastructure.Database
 {
-    public sealed class BuyerDbContext : DbContext
+    public class BuyerDbContext : DbContext
     {
-        public DbSet<Buyer> Buyers  { get; set; }
-        public DbSet<Price> Prices { get; set; }
-        public DbSet<Quantity> Quantities { get; set; }
-        public DbSet<BuyerTransactionStatus> BuyerTransactionStatuses { get; set; }
-        public DbSet<TimeStamp> TimeStamps { get; set; }
-
-        //private BuyerDbContext(DbContextOptions<BuyerDbContext> options) : base(options) { }
-
+        //add BuyerDbContext by Lalji 5:10PM 10/08/2019
+        public BuyerDbContext(DbContextOptions<BuyerDbContext> options) : base(options) { }
+        public DbSet<BuyerInformartion> BuyerInformartions { get; set; }
     }
 
-    public class TimeStamp
+    [Table("BuyerInformartion", Schema = "dbo")]
+    public class BuyerInformartion
     {
+        [Key] 
+        public int BuyerId { get; set; }
+
+        [Display(Name = "Price(INR)")]
+        public decimal Price{ get; set; }
+        public decimal  Amount{ get; set; }
+        public decimal Total { get; set; }
+        public int TransationStatus { get; set; }
         [Timestamp]
-        public byte[] TimeStamps { get; set; } 
-    }
-
-    public class Price
-    {
-        public  decimal Prices { get; set; }
-    }
-    public class Quantity
-    {
-        public decimal Quantities { get; set; }
+        public byte[] TimeStamps { get; set; }
     }
 }
