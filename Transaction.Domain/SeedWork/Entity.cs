@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Transaction.Domain.SeedWork
 {
-    public abstract class Entity
+    public class Entity
     {
         private List<INotification> _domainEvents;
         public void AddDomainEvent(INotification eventItem)
