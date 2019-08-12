@@ -14,6 +14,6 @@ namespace Transaction.Infrastructure.Database
         public BuyerDbContext(DbContextOptions<BuyerDbContext> options) : base(options) { }
         public DbSet<BuyerInformartion> BuyerInformartions { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
-        public DbSet<BuyerTransactionStatus> BuyerTransactionStatuse { get; set; }
+        public DbSet<BuyerTransactionStatus> BuyerTransactionStatus{ get; set; }
     }
 }
