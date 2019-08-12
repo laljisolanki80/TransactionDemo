@@ -20,7 +20,7 @@ namespace Transaction.Infrastructure.Repository
         }
         public async Task<Buyer> GetAsync(int buyerId)
         {
-            var buyer = await _buyerDbContext.BuyerInformartions.FindAsync(buyerId);
+            var buyer = await _buyerDbContext.Buyers.FindAsync(buyerId);
             if (buyer != null)
             {
                 //await _buyerDbContext.Entry(buyer)
@@ -33,15 +33,5 @@ namespace Transaction.Infrastructure.Repository
 
             return buyer;
         }
-
-        //Buyer IBuyerRepository.Add(Buyer buyer)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //Task<Buyer> IBuyerRepository.GetAsync(int buyerId)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
