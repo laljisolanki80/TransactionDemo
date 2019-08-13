@@ -25,19 +25,16 @@ namespace Transaction.Infrastructure.Database
         public TransactionDbContext(DbContextOptions<TransactionDbContext> options) : base(options) { }
 
         public DbSet<BuyerInformartion> BuyerInformartions { get; set; }
+        // Add by akshay
+
         public DbSet<Buyer> Buyers { get; set; }
         public DbSet<BuyerTransactionStatus> BuyerTransactionStatus { get;set;}
 
-        //public DbSet<BuyerTransactionStatus> BuyerTransactionStatuse { get; set; }
-        // Add by akshay
         public IDbContextTransaction GetCurrentTransaction => _currentTransaction;
 
         public TransactionDbContext(DbContextOptions<TransactionDbContext> options, IMediator mediator) : base(options)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-
-
-            System.Diagnostics.Debug.WriteLine("OrderingContext::ctor ->" + this.GetHashCode());
         }
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
