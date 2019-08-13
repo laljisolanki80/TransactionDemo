@@ -12,6 +12,7 @@ namespace EventBusRabbitMQ
         private readonly string queueName;
         private readonly IModel consumerChannel;
         private IModel _model;
+        private const string ExchangeName = "PublishSubscribe_Exchange";
 
         //message pass when transaction initialize
         //pass message in queue
@@ -23,21 +24,16 @@ namespace EventBusRabbitMQ
             this.consumerChannel = CreateConsumerChannel();
         }
 
-        public string ExchangeName { get; private set; }
-
-        public string SendMessage(String message="hii")
+        public string SendMessage(String message)
         {
                     var channel = consumerChannel;
-                    channel.QueueDeclare(message, false, false, false, null);
-                    channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
+            // channel.QueueDeclare(message, false, false, false, null);
+            //channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
+            _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
+            _model.ExchangeDeclare(ExchangeName, "fanout", false);
+
             return message;
         }
-
-
-        //  _model.BasicPublish(ExchangeName, "", null, message.serilize());
-
-        //channel.QueueDeclare(Queue:"msgkey",
-        //    durability)
 
         private IModel CreateConsumerChannel()
         {
@@ -50,5 +46,6 @@ namespace EventBusRabbitMQ
             var channel = persistentConnection.CreateModel();
             return channel;
         }
+
     }
 }
