@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using EventBusRabbitMQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 using Transaction.API.Infrastructure.AutofacModule;
 using Transaction.Infrastructure.Database;
 
@@ -42,8 +44,42 @@ namespace Transaction.API
             new AutofacServiceProvider(container.Build());
         }
 
+        private void AddRabbitMQConfigs(IServiceCollection services)
+        {
+            //configure rabbitMQ connection By Lalji 13/08/2019
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            {
+                var factory = new ConnectionFactory()
+                {
+                    HostName = Configuration["EventBusConnection"]
+                };
+
+                if (!string.IsNullOrEmpty(Configuration["EventBusUserName"]))
+                {
+                    factory.UserName = Configuration["EventBusUserName"];
+                }
+
+                if (!string.IsNullOrEmpty(Configuration["EventBusPassword"]))
+                {
+                    factory.Password = Configuration["EventBusPassword"];
+                }
+
+                return new DefaultRabbitMQPersistentConnection(factory);
+            });
+
+            //Configure rabbitmq queue and channel  -Lalji 13-08-2019
+            services.AddSingleton<IRabbitMQOperation>(sp =>
+            {
+                var connection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+                var queueName = Configuration["GlobalQueue"];
+
+                return new RabbitMQOperations(connection, queueName);
+            });
+
+        }
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+            public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 //add appsettings.json by Lalji 12:40PM 12/08/2019

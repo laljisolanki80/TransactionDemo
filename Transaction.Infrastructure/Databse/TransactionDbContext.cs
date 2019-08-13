@@ -15,7 +15,8 @@ namespace Transaction.Infrastructure.Database
     public class TransactionDbContext : DbContext    //DbContext class rename by Lalji previous BuyerDbContext
     {
         //add BuyerDbContext by Lalji 5:10PM 10/08/2019
-        public TransactionDbContext(DbContextOptions<TransactionDbContext> options) : base(options) { }
+    public TransactionDbContext(DbContextOptions<TransactionDbContext> options) : base(options) { }
+
         public DbSet<BuyerInformartion> BuyerInformartions { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
 

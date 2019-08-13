@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EventBusRabbitMQ
 {
-    interface IRabbitMQOperation
+   public interface IRabbitMQOperation
     {
         string SendMessage();
     }
