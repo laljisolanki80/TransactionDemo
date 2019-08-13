@@ -10,6 +10,6 @@ namespace Transaction.API.Application.IntegrationEvents
    public interface IBuyerIntegrationEventService
     {
         Task PublishEventsThroughEventBusAsync();
-        Task AddAndSaveEventAsync(IntegrationEvent evt);
+        //Task AddAndSaveEventAsync(IntegrationEvent integrationEvent);
     }
 }

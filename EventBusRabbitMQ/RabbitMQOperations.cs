@@ -10,7 +10,7 @@ namespace EventBusRabbitMQ
     {
         private readonly IRabbitMQPersistentConnection persistentConnection;
         private readonly string queueName;
-        private IModel consumerChannel;
+        private readonly IModel consumerChannel;
         private IModel _model;
 
         //message pass when transaction initialize
@@ -25,11 +25,11 @@ namespace EventBusRabbitMQ
 
         public string ExchangeName { get; private set; }
 
-        public string SendMessage(String message, string data)
+        public string SendMessage(String message="hii")
         {
                     var channel = consumerChannel;
                     channel.QueueDeclare(message, false, false, false, null);
-                    channel.BasicPublish(string.Empty, data, null, Encoding.UTF8.GetBytes(data));
+                    channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
             return message;
         }
 
@@ -38,8 +38,6 @@ namespace EventBusRabbitMQ
 
         //channel.QueueDeclare(Queue:"msgkey",
         //    durability)
-
-
 
         private IModel CreateConsumerChannel()
         {
