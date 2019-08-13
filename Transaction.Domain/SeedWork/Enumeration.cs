@@ -5,11 +5,10 @@ using System.Text;
 
 namespace Transaction.Domain.SeedWork
 {
-    public class Enumeration:IComparable
+    public abstract class Enumeration:IComparable
     {
-        public string Name { get; private set; }
-        //[Key]
-        public int Id { get; private set; }
+        public string Name { get; set; }
+        public int Id { get; set; }
 
         protected Enumeration()
         { }
@@ -19,6 +18,8 @@ namespace Transaction.Domain.SeedWork
             Id = id;
             Name = name;
         }
+        public override string ToString() => Name;
+
 
         public int CompareTo(object other) => Id.CompareTo(((Enumeration)other).Id);
 

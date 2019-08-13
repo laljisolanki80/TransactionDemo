@@ -20,11 +20,18 @@ namespace Transaction.API.Application.DomainEventsHandler
             IBuyerIntegrationEventService buyerIntegrationEventService)
         {
             _buyerRepository = buyerRepository ?? throw new ArgumentNullException(nameof(buyerRepository));
-           _buyerIntegrationEventService = buyerIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
+           _buyerIntegrationEventService = buyerIntegrationEventService ?? throw new ArgumentNullException(nameof(buyerIntegrationEventService));
         }
-        public Task Handle(BuyStartedDomainEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(BuyStartedDomainEvent buyerStartedEvent, CancellationToken cancellationToken)
         {
-
+            var price = (buyerStartedEvent.Price != 0);
+            var quantity =await _buyerRepository.FindAsync(buyerStartedEvent.Price);
+            bool quantityExisted = (quantity == null) ? false : true;
+            if(!quantityExisted)
+            {
+                //var result = BuyerTransactionStatus.PartialHold;
+                
+            }
         }
     }
 }

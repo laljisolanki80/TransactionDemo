@@ -16,7 +16,7 @@ using Transaction.Domain.SeedWork;
 namespace Transaction.Infrastructure.Database
 {
     //IUnitOfWork Add letter by akshay
-    public class TransactionDbContext : DbContext    //DbContext class rename by Lalji previous BuyerDbContext
+    public class TransactionDbContext : DbContext, IUnitOfWork   //DbContext class rename by Lalji previous BuyerDbContext
     {
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
@@ -26,6 +26,7 @@ namespace Transaction.Infrastructure.Database
 
         public DbSet<BuyerInformartion> BuyerInformartions { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
+        public DbSet<BuyerTransactionStatus> BuyerTransactionStatus { get;set;}
 
         //public DbSet<BuyerTransactionStatus> BuyerTransactionStatuse { get; set; }
         // Add by akshay
@@ -46,8 +47,15 @@ namespace Transaction.Infrastructure.Database
 
             return _currentTransaction;
         }
+
+        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        {
+            await _mediator.DispatchDomainEventsAsync(this);
+            var result = await base.SaveChangesAsync();
+            return true;
+        }
     }
-    public class OrderingContextDesignFactory : IDesignTimeDbContextFactory<TransactionDbContext>
+    public class BuyerContextDesignFactory : IDesignTimeDbContextFactory<TransactionDbContext>
     {
         public TransactionDbContext CreateDbContext(string[] args)
         {

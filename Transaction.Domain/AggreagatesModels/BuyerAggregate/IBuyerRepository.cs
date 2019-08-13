@@ -9,7 +9,7 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
     public interface IBuyerRepository:IRepository<Buyer>
     {
         Buyer Add(Buyer buyer);
-        //Task<Buyer> GetAsync(int buyerId);
+        Task<Buyer> FindAsync(decimal price);
 
     }
 }

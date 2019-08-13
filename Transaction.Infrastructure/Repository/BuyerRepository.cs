@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.BuyerAggregate;
@@ -33,5 +35,14 @@ namespace Transaction.Infrastructure.Repository
 
         //    return buyer;
         //}
+        public async Task<Buyer> FindAsync(decimal price)
+        {
+            var buyer = await _transactionDbContext.Buyers
+                .Include(b => b.GetBuyerId)
+                .Where(b => b.Price == price)
+                .SingleOrDefaultAsync();
+
+            return buyer;
+        }
     }
 }
