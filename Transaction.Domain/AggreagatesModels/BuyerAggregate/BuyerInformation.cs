@@ -10,9 +10,10 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
     public class BuyerInformartion
     {
         [Key]
-        public int BuyerId { get; set; }
+        public int Id { get; set; }//changes for name 
 
-        [Display(Name = "Price(INR)")]
+
+        [Display(Name = "Price(INR)")] //Datatype should define
         public decimal Price { get; set; }
         public decimal Amount { get; set; }
         public decimal Total { get; set; }

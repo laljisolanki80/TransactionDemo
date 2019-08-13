@@ -6,5 +6,7 @@ namespace EventBusRabbitMQ
 {
    public class RabbitMQOperations
     {
+        //message pass when transaction initialize
+        //pass message in queue
     }
 }
