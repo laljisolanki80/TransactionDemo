@@ -12,7 +12,8 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
         [Key]
         public int Id { get; set; }//changes for name 
 
-
+        [Required]
+        [Column(TypeName = "decimal(28,18)")]
         [Display(Name = "Price(INR)")] //Datatype should define
         public decimal Price { get; set; }
         public decimal Amount { get; set; }
