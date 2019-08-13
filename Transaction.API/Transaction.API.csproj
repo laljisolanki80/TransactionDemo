@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
     <ProjectReference Include="..\EventBus\EventBus.csproj" />
+    <ProjectReference Include="..\IntegrationEventLogService\IntegrationEventLogService.csproj" />
     <ProjectReference Include="..\Transaction.Infrastructure\Transaction.Infrastructure.csproj" />
   </ItemGroup>
 
