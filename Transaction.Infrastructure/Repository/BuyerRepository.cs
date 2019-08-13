@@ -10,13 +10,13 @@ namespace Transaction.Infrastructure.Repository
 {
     public class BuyerRepository:IBuyerRepository
     {
-        private readonly BuyerDbContext _buyerDbContext;
+        private readonly TransactionDbContext _transactionDbContext;
 
         IUnitOfWork IRepository<Buyer>.UnitOfWork => throw new NotImplementedException();
 
         public Buyer Add(Buyer buyer)
         {
-            return _buyerDbContext.Buyers.Add(buyer).Entity;
+            return _transactionDbContext.Buyers.Add(buyer).Entity;
         }
         //public async Task<Buyer> GetAsync(int buyerId)
         //{

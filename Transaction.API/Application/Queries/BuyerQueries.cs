@@ -5,7 +5,13 @@ using System.Threading.Tasks;
 
 namespace Transaction.API.Application.Queries
 {
-    public class BuyerQueries:IBuyerQueries
+    public class BuyerQueries : IBuyerQueries
     {
+        private string queriesConnectionString;
+
+        public BuyerQueries(string queriesConnectionString)
+        {
+            this.queriesConnectionString = queriesConnectionString;
+        }
     }
 }
