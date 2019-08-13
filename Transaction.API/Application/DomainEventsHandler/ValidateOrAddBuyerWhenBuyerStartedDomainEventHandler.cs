@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Transaction.API.Application.IntegrationEvents;
 using Transaction.Domain.AggreagatesModels.BuyerAggregate;
 using Transaction.Domain.Events;
 
