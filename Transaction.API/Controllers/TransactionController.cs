@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Transaction.API.Application.Command;
+using Transaction.API.Application.Queries;
 
 namespace Transaction.API.Controllers
 {
@@ -18,10 +19,15 @@ namespace Transaction.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<TransactionController> _logger;
-        public TransactionController(IMediator mediator, ILogger<TransactionController> logger)
+        private readonly IBuyerQueries _brderQueries;
+
+        public TransactionController(IMediator mediator,
+            ILogger<TransactionController> logger,
+            IBuyerQueries buyerQueries)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _brderQueries = buyerQueries;
         }
 
         [Route("BuyTrade")]
