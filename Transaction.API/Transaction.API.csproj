@@ -9,11 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Queries\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />

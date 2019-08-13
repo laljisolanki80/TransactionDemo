@@ -18,20 +18,20 @@ namespace Transaction.Infrastructure.Repository
         {
             return _buyerDbContext.Buyers.Add(buyer).Entity;
         }
-        public async Task<Buyer> GetAsync(int buyerId)
-        {
-            var buyer = await _buyerDbContext.Buyers.FindAsync(buyerId);
-            if (buyer != null)
-            {
-                //await _buyerDbContext.Entry(buyer)
-                //    .Collection(i => i.OrderItems).LoadAsync();
-                await _buyerDbContext.Entry(buyer)
-                    .Reference(i => i.BuyerTransactionStatus).LoadAsync();
-                //await _buyerDbContext.Entry(buyer)
-                //    .Reference(i => i.Address).LoadAsync();
-            }
+        //public async Task<Buyer> GetAsync(int buyerId)
+        //{
+        //    var buyer = await _buyerDbContext.Buyers.FindAsync(buyerId);
+        //    if (buyer != null)
+        //    {
+        //        //await _buyerDbContext.Entry(buyer)
+        //        //    .Collection(i => i.OrderItems).LoadAsync();
+        //        await _buyerDbContext.Entry(buyer)
+        //            .Reference(i => i.BuyerTransactionStatus).LoadAsync();
+        //        //await _buyerDbContext.Entry(buyer)
+        //        //    .Reference(i => i.Address).LoadAsync();
+        //    }
 
-            return buyer;
-        }
+        //    return buyer;
+        //}
     }
 }
