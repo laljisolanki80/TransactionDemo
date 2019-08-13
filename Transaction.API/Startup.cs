@@ -26,14 +26,7 @@ namespace Transaction.API
         }
 
         public IConfiguration Configuration { get; }
-        //public IServiceProvider ConfigureServices(IServiceProvider services)
-        //{
-        //    var container = new ContainerBuilder();
-        //    container.Populate(services);
-
-        //    container.RegisterModule(new MediatorModule());
-        //}
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
