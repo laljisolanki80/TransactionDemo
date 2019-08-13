@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace Transaction.API.Application.Queries
 {
-    public class IBuyerQueries
+    public interface IBuyerQueries
     {
+        Task<Buyer> GetBuyerAsync();
     }
 }
