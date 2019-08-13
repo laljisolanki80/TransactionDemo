@@ -20,6 +20,12 @@ namespace Transaction.Domain.SeedWork
             }
         }
         private List<INotification> _domainEvents;
+        public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
+        public void ClearDomainEvents()
+        {
+            _domainEvents?.Clear();
+        }
+
         public void AddDomainEvent(INotification eventItem)
         {
             _domainEvents = _domainEvents ?? new List<INotification>();

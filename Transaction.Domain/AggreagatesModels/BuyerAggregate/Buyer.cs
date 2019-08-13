@@ -10,20 +10,27 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
 {
     public class Buyer:Entity,IAggregateRoot
     {
-        //private DateTime _buyDate;
-        [Key]
+        private DateTime _buyDate;
+     
         public int? GetBuyerId => _buyerId;
+        public decimal Quantity { get; set; }
+        public decimal Price { get; set; }
+        public BuyerTransactionStatus BuyerTransactionStatus { get; private set; }
+
         private int? _buyerId;
-        //private int _orderStatusId;
-       // public BuyerTransactionStatus BuyerTransactionStatus { get; private set; }
+        private int _buyerTransactionStatusId;
 
         private readonly List<BuyerItem> _buyerItems;
         protected Buyer()
-        { }
+        {
+            _buyerItems = new List<BuyerItem>();
+        }
    
-    public Buyer(string id, decimal price,decimal quantity, int? buyerId = null)
+    public Buyer(string id, decimal price,decimal quantity, int? buyerId = null):this()
         {
             _buyerId = buyerId;
+            _buyerTransactionStatusId = BuyerTransactionStatus.success.Id;
+            _buyDate = DateTime.UtcNow;
             AddBuyStartedDomainEvent(id, price, quantity);
         }
 
