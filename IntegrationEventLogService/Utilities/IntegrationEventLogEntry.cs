@@ -1,10 +1,7 @@
 ﻿using EventBus.Events;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
 
 namespace IntegrationEventLogService.Utilities
 {
@@ -16,7 +13,7 @@ namespace IntegrationEventLogService.Utilities
             EventId = @event.Id;
             CreationTime = @event.CreationDate;
             EventTypeName = @event.GetType().FullName;
-            Content = JsonConvert.SerializeObject(@event);
+           //Content = JsonConvert.SerializeObject(@event);
             State = EventStateEnum.NotPublished;
             TimesSent = 0;
         }
@@ -33,7 +30,7 @@ namespace IntegrationEventLogService.Utilities
 
         public IntegrationEventLogEntry DeserializeJsonContent(Type type)
         {
-            IntegrationEvent = JsonConvert.DeserializeObject(Content, type) as IntegrationEvent;
+            //IntegrationEvent = JsonConvert.DeserializeObject(Content, type) as IntegrationEvent;
             return this;
         }
     }

@@ -22,9 +22,15 @@ namespace Transaction.API.Application.DomainEventsHandler
             _buyerRepository = buyerRepository ?? throw new ArgumentNullException(nameof(buyerRepository));
            _buyerIntegrationEventService = buyerIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
         }
+
+        private object orderingIntegrationEventService()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task Handle(BuyStartedDomainEvent notification, CancellationToken cancellationToken)
         {
-
+            return null;
         }
     }
 }
