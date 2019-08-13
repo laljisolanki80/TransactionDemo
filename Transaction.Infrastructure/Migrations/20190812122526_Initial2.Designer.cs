@@ -10,7 +10,7 @@ using Transaction.Infrastructure.Database;
 
 namespace Transaction.Infrastructure.Migrations
 {
-    [DbContext(typeof(BuyerDbContext))]
+    [DbContext(typeof(TransactionDbContext))]
     [Migration("20190812122526_Initial2")]
     partial class Initial2
     {

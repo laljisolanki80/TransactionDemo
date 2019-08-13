@@ -24,20 +24,13 @@ namespace Transaction.API
         }
 
         public IConfiguration Configuration { get; }
-        //public IServiceProvider ConfigureServices(IServiceProvider services)
-        //{
-        //    var container = new ContainerBuilder();
-        //    container.Populate(services);
-
-        //    container.RegisterModule(new MediatorModule());
-        //}
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddOptions();
-            services.AddDbContext<BuyerDbContext>
+            services.AddDbContext<TransactionDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
             System.Console.WriteLine("ConnectionString");
 

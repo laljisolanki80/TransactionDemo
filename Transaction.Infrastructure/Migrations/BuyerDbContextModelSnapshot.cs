@@ -10,7 +10,7 @@ using Transaction.Infrastructure.Database;
 
 namespace Transaction.Infrastructure.Migrations
 {
-    [DbContext(typeof(BuyerDbContext))]
+    [DbContext(typeof(TransactionDbContext))]
     partial class BuyerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
