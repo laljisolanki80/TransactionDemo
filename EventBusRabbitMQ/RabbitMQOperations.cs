@@ -6,7 +6,7 @@ using System.Transactions;
 
 namespace EventBusRabbitMQ
 {
-   public class RabbitMQOperations:IRabbitMQOperation
+    public class RabbitMQOperations : IRabbitMQOperation
     {
         private readonly IRabbitMQPersistentConnection persistentConnection;
         private readonly string queueName;
@@ -16,7 +16,7 @@ namespace EventBusRabbitMQ
         //message pass when transaction initialize
         //pass message in queue
 
-        public RabbitMQOperations(IRabbitMQPersistentConnection persistentConnection,string queueName = null)
+        public RabbitMQOperations(IRabbitMQPersistentConnection persistentConnection, string queueName = null)
         {
             this.persistentConnection = persistentConnection;
             this.queueName = queueName;
@@ -25,16 +25,21 @@ namespace EventBusRabbitMQ
 
         public string ExchangeName { get; private set; }
 
-        public string SendMessage()
+        public string SendMessage(String message, string data)
         {
-            throw new NotImplementedException();
-            //var channel = consumerChannel;
-          //  _model.BasicPublish(ExchangeName, "", null, message.serilize());
-          
-            //channel.QueueDeclare(Queue:"msgkey",
-            //    durability)
-
+                    var channel = consumerChannel;
+                    channel.QueueDeclare(message, false, false, false, null);
+                    channel.BasicPublish(string.Empty, data, null, Encoding.UTF8.GetBytes(data));
+            return message;
         }
+
+
+        //  _model.BasicPublish(ExchangeName, "", null, message.serilize());
+
+        //channel.QueueDeclare(Queue:"msgkey",
+        //    durability)
+
+
 
         private IModel CreateConsumerChannel()
         {

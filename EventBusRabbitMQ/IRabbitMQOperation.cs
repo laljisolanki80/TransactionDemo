@@ -6,6 +6,7 @@ namespace EventBusRabbitMQ
 {
    public interface IRabbitMQOperation
     {
-        string SendMessage();
+        string SendMessage(string queue,string data);
+        string SendMessage(string message, string data);
     }
 }
