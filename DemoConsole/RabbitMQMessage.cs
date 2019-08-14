@@ -39,10 +39,10 @@ namespace DemoConsole
 
                     channel.ExchangeDeclare(ExchangeName, "topic");
                     channel.QueueDeclare(AllQueueName, true, false, false, null);
-                    channel.QueueBind(AllQueueName, ExchangeName, "This is demo message in queue");
+                    channel.QueueBind(AllQueueName, ExchangeName, "Payment.*");
 
                     channel.BasicQos(0, 10, false);
-                    Subscription subscription = new Subscription(channel, AllQueueName, false);
+                    //Subscription subscription = new Subscription(channel, AllQueueName, false);
                 }
             }
 

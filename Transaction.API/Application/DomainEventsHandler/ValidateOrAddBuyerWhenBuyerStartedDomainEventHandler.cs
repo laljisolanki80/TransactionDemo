@@ -28,8 +28,9 @@ namespace Transaction.API.Application.DomainEventsHandler
             var quantity =await _buyerRepository.FindAsync(buyerStartedEvent.Price);
             bool quantityExisted = (quantity == null) ? false : true;
             if(!quantityExisted)
-            {    
-                //add event
+            {
+                //var result = BuyerTransactionStatus.PartialHold;
+                //BuyTransactionOnHoldEvent by lalji 
             }
         }
     }

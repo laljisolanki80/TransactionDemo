@@ -19,15 +19,9 @@ namespace Transaction.API.Controllers
         [Route("Send")]
         public void send([FromBody] Message message)
         {
-            ConnectionFactory connectionFactory = new ConnectionFactory();
-            IConnection connection = connectionFactory.CreateConnection();
 
-            //return send(queueMessage);
-        }
-
-        private void send(string queueMessage)
-        {
-            throw new NotImplementedException();
+            message.createConnection();
+          //  return message;
         }
     }
 
@@ -52,10 +46,10 @@ namespace Transaction.API.Controllers
             var channel=_connection.CreateModel();
             channel.ExchangeDeclare(QueueName, "total");
             channel.QueueDeclare(AllQueueName, true, true, false, null);
-            channel.QueueBind(AllQueueName, QueueName,"Transacti");
+            channel.QueueBind(AllQueueName, QueueName,"Transaction");
             _factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
             _connection = _factory.CreateConnection();
-           // _model.ExchangeDeclare(ExchangeName, "fanout", false);
+          _model.ExchangeDeclare(QueueName, "fanout", false);
         }
     }
 }
