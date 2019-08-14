@@ -11,7 +11,7 @@ using Transaction.API.Application.Queries;
 
 namespace Transaction.API.Controllers
 {
-    //[Produces("application/json")]
+    [Produces("application/json")]
     [Route("api/Transaction")]
 
     //by Akshay

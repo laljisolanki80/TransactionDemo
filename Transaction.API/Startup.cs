@@ -39,12 +39,12 @@ namespace Transaction.API
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
             System.Console.WriteLine("ConnectionString");
 
-            //services.AddEntityFrameworkStores<BuyerDbContext>();
-            var container = new ContainerBuilder();
-            container.Populate(services);
-            container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
-            new AutofacServiceProvider(container.Build());
+            //services.AddEntityFrameworkStores<TransactionDbContext>();
+            //var container = new ContainerBuilder();
+            //container.Populate(services);
+            //container.RegisterModule(new MediatorModule());
+            //container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
+            //new AutofacServiceProvider(container.Build());
         }
 
         private void AddRabbitMQConfigs(IServiceCollection services)
