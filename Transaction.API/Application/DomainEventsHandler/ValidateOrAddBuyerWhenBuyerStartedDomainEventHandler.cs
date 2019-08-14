@@ -30,7 +30,7 @@ namespace Transaction.API.Application.DomainEventsHandler
             if(!quantityExisted)
             {
                 //var result = BuyerTransactionStatus.PartialHold;
-                
+                //BuyTransactionOnHoldEvent by lalji 
             }
         }
     }
