@@ -14,7 +14,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Transaction.API.Infrastructure.AutofacModule;
+using Transaction.Domain.AggreagatesModels.BuyerAggregate;
 using Transaction.Infrastructure.Database;
+using Transaction.Infrastructure.Repository;
 
 namespace Transaction.API
 {
@@ -31,6 +33,7 @@ namespace Transaction.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddTransient<IBuyerRepository, BuyerRepository>(); // add Akshay
             services.AddOptions();
             services.AddDbContext<TransactionDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);

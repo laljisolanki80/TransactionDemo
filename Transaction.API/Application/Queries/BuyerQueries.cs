@@ -1,34 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Dapper;
 using System.Linq;
 using System.Threading.Tasks;
+using Transaction.API.Application.Models;
+using Transaction.Infrastructure.Database;
 
 namespace Transaction.API.Application.Queries
 {
-    public class BuyerQueries: IBuyerQueries
+    public class BuyerQueries:IBuyerQueries
     {
         private string _connectionString = string.Empty;
+    
         public BuyerQueries(string constr)
         {
-            _connectionString = !string.IsNullOrWhiteSpace(constr) ? constr : throw new ArgumentNullException(nameof(constr));
+               _connectionString = !string.IsNullOrWhiteSpace(constr) ? constr : throw new ArgumentNullException(nameof(constr));
         }
-        public async Task<Buyer> GetBuyerAsync()
+        public async Task<Buyer> GetTransactionAsync(TransactionModel transactionModel)
         {
-            //using (var connection = new SqlConnection(_connectionString))
-            //{
-            //    connection.Open();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                
+                var priceResult = await connection.QueryAsync<dynamic>("select * from Buyers where Price <= " + transactionModel.Price);
 
-            //    //var result = await connection.QueryAsync<dynamic>("select * from");
+                if (priceResult.AsList().Count != 0)                
+                {
+                    var check = await connection.QueryAsync<dynamic>("select * from Buyers where Quantity >=" +transactionModel.Quantity);
+                    if (check.AsList().Count != 0)
+                    {
+                        //Console.WriteLine("settlement done");   //add event
 
-            //    if (result.AsList().Count == 0)
-            //        throw new KeyNotFoundException();
+                    }
+                    else
+                    {
+                        //Console.WriteLine("partial hold "); //add event
+                    }
+                }
+                else
+                {
+                    // throw new KeyNotFoundException("Not Available"); //add event
 
-            //    return MapOrderItems(result);
-            //}
-            return null;
+                }
+                return MapBuyerItems(priceResult);
+            }
+           
         }
-        private Buyer MapOrderItems(dynamic result)
+
+        private Buyer MapBuyerItems(dynamic result)
         {
             var buyer = new Buyer
             {

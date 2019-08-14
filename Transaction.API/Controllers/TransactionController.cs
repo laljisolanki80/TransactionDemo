@@ -19,7 +19,7 @@ namespace Transaction.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<TransactionController> _logger;
-        private readonly IBuyerQueries _brderQueries;
+        private readonly IBuyerQueries _buyerQueries;
 
         public TransactionController(IMediator mediator,
             ILogger<TransactionController> logger,
@@ -27,7 +27,7 @@ namespace Transaction.API.Controllers
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _brderQueries = buyerQueries;
+            _buyerQueries = buyerQueries;
         }
 
         [Route("BuyTrade")]
@@ -42,6 +42,7 @@ namespace Transaction.API.Controllers
             //{
             //}
             //return Ok("success done");
+
         }
 
         [Route("sale")]
