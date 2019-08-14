@@ -13,14 +13,36 @@ namespace Transaction.API.Controllers
     [Route("api/RabbitMQ")]
     public class RabbitMQController : Controller
     {
-        private readonly string queueMessage;
+        //private readonly string queueMessage;
+        private readonly IModel consumerChannel;
+        private const string ExchangeName = "BuyerTransaction_Exchange";
+        private static IModel _model;
+        private static ConnectionFactory _factory;
+        private static IConnection _connection;
+        //private static IModel _model;
+
 
         [HttpPost]
         [Route("Send")]
-        public void send([FromBody] Message message)
+            public void SendMessage(string message)
+            {
+                     CreateConnection();
+                var channel = consumerChannel;
+                // channel.QueueDeclare(message, false, false, false, null);
+                //channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
+                _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
+                _model.ExchangeDeclare(ExchangeName, "fanout", false);
+
+             }
+
+        public static void CreateConnection()
         {
-            
+            _factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
+            _connection = _factory.CreateConnection();
+            _model = _connection.CreateModel();
+            _model.ExchangeDeclare(ExchangeName, "fanout", false);
         }
+
     }
 
 

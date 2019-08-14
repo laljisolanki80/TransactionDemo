@@ -12,7 +12,7 @@ namespace EventBusRabbitMQ
         private readonly string queueName;
         private readonly IModel consumerChannel;
         private IModel _model;
-        private const string ExchangeName = "PublishSubscribe_Exchange";
+        private const string ExchangeName = "BuyerTransaction_Exchange";
 
         //message pass when transaction initialize
         //pass message in queue
