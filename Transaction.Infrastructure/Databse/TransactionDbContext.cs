@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.BuyerAggregate;
+using Transaction.Domain.AggreagatesModels.SellerAggregate;
 using Transaction.Domain.SeedWork;
 
 namespace Transaction.Infrastructure.Database
@@ -28,6 +29,7 @@ namespace Transaction.Infrastructure.Database
         // Add by akshay
 
         public DbSet<Buyer> Buyers { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
         public DbSet<BuyerTransactionStatus> BuyerTransactionStatus { get;set;}
 
         public IDbContextTransaction GetCurrentTransaction => _currentTransaction;
