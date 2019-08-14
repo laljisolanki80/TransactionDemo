@@ -13,6 +13,8 @@ namespace Transaction.API.Controllers
     [Route("api/RabbitMQ")]
     public class RabbitMQController : Controller
     {
+
+        //this is testing controller for RabbitMQ by lalji 14/06/2016
         //private readonly string queueMessage;
         private readonly IModel consumerChannel;
         private const string ExchangeName = "BuyerTransaction_Exchange";
