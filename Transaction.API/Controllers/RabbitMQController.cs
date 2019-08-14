@@ -19,19 +19,38 @@ namespace Transaction.API.Controllers
         [Route("Send")]
         public void send([FromBody] Message message)
         {
-
-            message.createConnection();
-          //  return message;
+            
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public class Message
     {
         private static ConnectionFactory _factory;
         private static IConnection _connection;
         private static IModel _model;
-        private const string QueueName = "Publish_Exchange";
-        private const string AllQueueName = "AllPublish_Queue";
+        private const string QueueName = "BuyerTransaction_Exchange";
+        private const string AllQueueName = "AllPublish_Exchange";
         public static void send(string queueMessage)
         {
             queueMessage = "hello from testing";
