@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace UnitTestRabbitMQ
 {
@@ -11,13 +12,12 @@ namespace UnitTestRabbitMQ
     [TestClass]
     public class RabbitMQUnitTest
     {
-        [TestMethod]
-        public void Test_SendMessage()
+        [Fact]
+        public void SendMessageTest()
         {
-            string Message = "hello from test";
+            var FakeMessage = "Hello..Fakemessage";
 
         }
-
 
     }
 }

@@ -21,12 +21,13 @@ namespace Transaction.API.Controllers
         private static IModel _model;
         private static ConnectionFactory _factory;
         private static IConnection _connection;
+        private Action send;
         //private static IModel _model;
 
 
         [HttpPost]
         [Route("Send")]
-            public void SendMessage(string message)
+            public IActionResult SendMessage(string message)
             {
                      CreateConnection();
                 var channel = consumerChannel;
@@ -34,6 +35,8 @@ namespace Transaction.API.Controllers
                 //channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
                 _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
                 _model.ExchangeDeclare(ExchangeName, "fanout", false);
+
+            return Ok();
 
              }
 
