@@ -37,7 +37,8 @@ namespace Transaction.API
             services.AddOptions();
             services.AddDbContext<TransactionDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-            System.Console.WriteLine("ConnectionString");
+            
+            //System.Console.WriteLine("ConnectionString");
 
             //services.AddEntityFrameworkStores<BuyerDbContext>();
             var container = new ContainerBuilder();
