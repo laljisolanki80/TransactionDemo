@@ -66,15 +66,14 @@ namespace Transaction.API.Controllers
         [Route("Get")]
         public IActionResult ReceiveMessage()
         {
-            //var message = "";
-            CreateConsumerChannel();
-            return Ok();
+            var message = CreateConsumerChannel();
+            return Ok(message);
         }
 
 
-        public IModel CreateConsumerChannel()
+        public string CreateConsumerChannel()
         {
-          
+            var message = "";
             if (!persistentConnection.IsConnected)
             {
                 persistentConnection.TryConnect();
@@ -83,7 +82,7 @@ namespace Transaction.API.Controllers
 
             channel.ExchangeDeclare(ExchangeName, type: "fanout", false);
 
-            channel.QueueDeclare(queue: "TestRabbit",
+            channel.QueueDeclare(queue: ExchangeName,
                                  durable: true,
                                  exclusive: false,
                                  autoDelete: false,
@@ -92,15 +91,16 @@ namespace Transaction.API.Controllers
 
             var consumer = new EventingBasicConsumer(channel);
             channel.BasicConsume("TestRabbit", false, consumer);
+
            // channel.ToString();
 
             consumer.Received += (model, ea) =>
             {
                 //var eventName = ea.RoutingKey;
-                var message = Encoding.UTF8.GetString(ea.Body);
-                
+                message += Encoding.UTF8.GetString(ea.Body);
+                channel.BasicAck(ea.DeliveryTag, multiple: false);
             };
-            return channel;
+            return message;
         }
 
     }
