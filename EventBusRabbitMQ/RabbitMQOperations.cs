@@ -1,4 +1,5 @@
 ﻿using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,6 +45,29 @@ namespace EventBusRabbitMQ
             }
 
             var channel = persistentConnection.CreateModel();
+
+            channel.ExchangeDeclare(exchange: ExchangeName, type: "direct", true);
+
+            channel.QueueDeclare(queue: queueName,
+                                 durable: true,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
+
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += async (model, ea) =>
+            {
+                var eventName = ea.RoutingKey;
+                var message = Encoding.UTF8.GetString(ea.Body);
+
+
+                channel.BasicAck(ea.DeliveryTag, multiple: false);
+            };
+
+            channel.BasicConsume(queue: queueName,
+                                 autoAck: false,
+                                 consumer: consumer);
+
             return channel;
         }
 
