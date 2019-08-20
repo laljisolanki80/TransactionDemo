@@ -33,12 +33,13 @@ namespace Transaction.API.Controllers
         public IActionResult SendMessage(string message)
         {
             CreateConnection();
-            var channel = consumerChannel;
+            //var channel = consumerChannel;
             // channel.QueueDeclare(message, false, false, false, null);
             //channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
             _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
             _model.ExchangeDeclare(ExchangeName, "fanout", false);
 
+           ReceiveMessage();
             return Ok();
 
         }
@@ -49,10 +50,11 @@ namespace Transaction.API.Controllers
             _model = _connection.CreateModel();
             _model.ExchangeDeclare(ExchangeName, "fanout", false);
         }
-
+        [HttpGet]
+        [Route("Get")]
         public string ReceiveMessage()
         {
-            var message = "";
+            //var message = "";
             var consumer = new EventingBasicConsumer(consumerChannel);
             consumer.Received +=  (model, ea) =>
             {
