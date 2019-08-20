@@ -45,7 +45,7 @@ namespace Transaction.API.Controllers
             // channel.QueueDeclare(message, false, false, false, null);
             //channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
             _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
-            _model.ExchangeDeclare(ExchangeName, "fanout", false);
+            _model.ExchangeDeclare(ExchangeName, "fanout", true);
 
      
             return Ok();
@@ -57,7 +57,7 @@ namespace Transaction.API.Controllers
             _connection = _factory.CreateConnection();
             
             _model = _connection.CreateModel();
-            _model.ExchangeDeclare(ExchangeName, "fanout", false);
+            _model.ExchangeDeclare(ExchangeName, "fanout", true);
         }
 
         
@@ -78,28 +78,33 @@ namespace Transaction.API.Controllers
             {
                 persistentConnection.TryConnect();
             }
-            var channel = persistentConnection.CreateModel();
-
-            channel.ExchangeDeclare(ExchangeName, type: "fanout", false);
-
-            channel.QueueDeclare(queue: ExchangeName,
-                                 durable: true,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-            
-
-            var consumer = new EventingBasicConsumer(channel);
-            channel.BasicConsume("TestRabbit", false, consumer);
-
-           // channel.ToString();
-
-            consumer.Received += (model, ea) =>
+            using (var channel = persistentConnection.CreateModel())
             {
-                //var eventName = ea.RoutingKey;
-                message += Encoding.UTF8.GetString(ea.Body);
-                channel.BasicAck(ea.DeliveryTag, multiple: false);
-            };
+                channel.ExchangeDeclare(ExchangeName, type: "fanout", true);
+
+                channel.QueueDeclare(queue: ExchangeName,
+                     durable: true,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
+
+                channel.QueueBind(queue: ExchangeName, exchange: ExchangeName, routingKey: "", arguments: null);
+
+                var consumer = new EventingBasicConsumer(channel);
+                channel.BasicConsume(ExchangeName, false, consumer);
+
+                // channel.ToString();
+
+                consumer.Received += (model, ea) =>
+                {
+                    //var eventName = ea.RoutingKey;
+                    message += Encoding.UTF8.GetString(ea.Body);
+                    channel.BasicAck(ea.DeliveryTag, multiple: false);
+                };
+
+                channel.QueuePurge(ExchangeName);
+            }
+
             return message;
         }
 
