@@ -18,7 +18,7 @@ namespace EventBusRabbitMQ
     {
         private readonly IConnectionFactory _connectionFactory;
         private readonly int _retryCount;
-        private readonly ILogger<DefaultRabbitMQPersistentConnection> _helperlog;
+       // private readonly ILogger<DefaultRabbitMQPersistentConnection> _helperlog;
         IConnection _connection;
         bool _disposed;
 
@@ -63,7 +63,7 @@ namespace EventBusRabbitMQ
 
         public bool TryConnect()
         {
-            _helperlog.LogInformation("RabbitMQ Client is trying to connect");
+            //_helperlog.LogInformation("RabbitMQ Client is trying to connect");
 
             _connection = _connectionFactory
                            .CreateConnection();

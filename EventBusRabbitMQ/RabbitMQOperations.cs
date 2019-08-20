@@ -13,7 +13,7 @@ namespace EventBusRabbitMQ
         private readonly string queueName;
         private readonly IModel consumerChannel;
         private IModel _model;
-        private const string ExchangeName = "BuyerTransaction_Exchange";
+        private const string ExchangeName = "BuyerTransaction_ExchangeFromOperation";
 
         //message pass when transaction initialize
         //pass message in queue
@@ -36,7 +36,7 @@ namespace EventBusRabbitMQ
             return message;
         }
 
-        private IModel CreateConsumerChannel()
+        public IModel CreateConsumerChannel()
         {
             //Check rabbitMQ connection By Lalji 13/08/2019
             if (!persistentConnection.IsConnected)
@@ -46,7 +46,7 @@ namespace EventBusRabbitMQ
 
             var channel = persistentConnection.CreateModel();
 
-            channel.ExchangeDeclare(exchange: ExchangeName, type: "direct", true);
+            channel.ExchangeDeclare(exchange: ExchangeName, type: "fanout", true);
 
             channel.QueueDeclare(queue: queueName,
                                  durable: true,
@@ -55,7 +55,7 @@ namespace EventBusRabbitMQ
                                  arguments: null);
 
             var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += async (model, ea) =>
+            consumer.Received +=  (model, ea) =>
             {
                 var eventName = ea.RoutingKey;
                 var message = Encoding.UTF8.GetString(ea.Body);
