@@ -30,6 +30,7 @@ namespace Transaction.API.Controllers
         public RabbitMQController(IRabbitMQPersistentConnection persistentConnection)
         {
             this.persistentConnection = persistentConnection;
+            
         }
         [HttpPost]
         [Route("Send")]
