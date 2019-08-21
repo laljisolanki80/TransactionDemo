@@ -26,12 +26,7 @@ namespace Transaction.API.Controllers
         private string TestRabbit;
         private readonly IModel Channel;
 
-        //private IModel consumerChannel;
-
-        //private PersistentConnection _persistentConnection;
-
-        //private static IModel _model;
-
+       
         public RabbitMQController(IRabbitMQPersistentConnection persistentConnection)
         {
             this.persistentConnection = persistentConnection;
@@ -93,7 +88,7 @@ namespace Transaction.API.Controllers
                 var consumer = new EventingBasicConsumer(channel);
                 channel.BasicConsume(ExchangeName, false, consumer);
 
-                // channel.ToString();
+                
 
                 consumer.Received += (model, ea) =>
                 {
