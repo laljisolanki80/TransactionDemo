@@ -33,18 +33,18 @@ namespace Transaction.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<IBuyerRepository, BuyerRepository>(); // add Akshay
+            services.AddScoped<IBuyerRepository, BuyerRepository>(); // add Akshay
             services.AddOptions();
             services.AddDbContext<TransactionDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
             System.Console.WriteLine("ConnectionString");
 
             //services.AddEntityFrameworkStores<TransactionDbContext>();
-            //var container = new ContainerBuilder();
-            //container.Populate(services);
-            //container.RegisterModule(new MediatorModule());
-            //container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
-            //new AutofacServiceProvider(container.Build());
+            var container = new ContainerBuilder();
+            container.Populate(services);
+            container.RegisterModule(new MediatorModule());
+            container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
+            new AutofacServiceProvider(container.Build());
         }
 
         private void AddRabbitMQConfigs(IServiceCollection services)

@@ -2,21 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Transaction.Domain.AggreagatesModels.BuyerAggregate;
+using Transaction.Domain.AggreagatesModels.SellerAggregate;
 
 namespace Transaction.Domain.Events
 {
-    // Event used when an Buyer is created
-    public class BuyStartedDomainEvent : INotification
+    public class SellStartedDomainEvent:INotification
     {
         public string Id { get; }
         public decimal Price { get; }
         public decimal Quantity { get; }
-        public Buyer Buyer { get; }
+        public Seller Seller { get; }
 
-        public BuyStartedDomainEvent(Buyer buyer, string id, decimal price, decimal quantity)
+        public SellStartedDomainEvent(Seller seller, string id, decimal price, decimal quantity)
         {
-            Buyer = buyer;
+            Seller = seller;
             Id = id;
             Price = price;
             Quantity = quantity;

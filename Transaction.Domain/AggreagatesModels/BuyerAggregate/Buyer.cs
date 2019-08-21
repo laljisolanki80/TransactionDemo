@@ -25,8 +25,8 @@ namespace Transaction.Domain.AggreagatesModels.BuyerAggregate
         {
             _buyerItems = new List<BuyerItem>();
         }
-   
-    public Buyer(string id, decimal price,decimal quantity, int? buyerId = null):this()
+
+        public Buyer(string id, decimal price,decimal quantity, int? buyerId = null):this()
         {
             _buyerId = buyerId;
             _buyerTransactionStatusId = BuyerTransactionStatus.success.Id;
