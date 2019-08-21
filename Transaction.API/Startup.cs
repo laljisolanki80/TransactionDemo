@@ -33,13 +33,14 @@ namespace Transaction.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddScoped<IBuyerRepository, BuyerRepository>(); // add Akshay
+            services.AddTransient<IBuyerRepository, BuyerRepository>(); // add Akshay
             services.AddOptions();
             services.AddDbContext<TransactionDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-            System.Console.WriteLine("ConnectionString");
 
-            //services.AddEntityFrameworkStores<TransactionDbContext>();
+            //System.Console.WriteLine("ConnectionString");
+            AddRabbitMQConfigs(services);
+            //services.AddEntityFrameworkStores<BuyerDbContext>();
             var container = new ContainerBuilder();
             container.Populate(services);
             container.RegisterModule(new MediatorModule());

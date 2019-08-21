@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EventBusRabbitMQ;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace Transaction.API.Controllers
 {
@@ -13,84 +16,97 @@ namespace Transaction.API.Controllers
     [Route("api/RabbitMQ")]
     public class RabbitMQController : Controller
     {
-        //private readonly string queueMessage;
-        private readonly IModel consumerChannel;
-        private const string ExchangeName = "BuyerTransaction_Exchange";
+        //this is testing controller for RabbitMQ by lalji 14/06/2016
+
+        private readonly IRabbitMQPersistentConnection persistentConnection;
+        private const string ExchangeName = "BuyerTransaction_ExchangeTEST";
         private static IModel _model;
         private static ConnectionFactory _factory;
-        private static IConnection _connection;
+        private static RabbitMQ.Client.IConnection _connection;
+        private string TestRabbit;
+        private readonly IModel Channel;
+
+        //private IModel consumerChannel;
+
+        //private PersistentConnection _persistentConnection;
+
         //private static IModel _model;
 
-
+        public RabbitMQController(IRabbitMQPersistentConnection persistentConnection)
+        {
+            this.persistentConnection = persistentConnection;
+        }
         [HttpPost]
         [Route("Send")]
-            public void SendMessage(string message)
-            {
-                     CreateConnection();
-                var channel = consumerChannel;
-                // channel.QueueDeclare(message, false, false, false, null);
-                //channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
-                _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
-                _model.ExchangeDeclare(ExchangeName, "fanout", false);
+        public IActionResult SendMessage(string message)
+        {
+            CreateConnection();
+            //var channel = consumerChannel;
+            // channel.QueueDeclare(message, false, false, false, null);
+            //channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
+            _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
+            _model.ExchangeDeclare(ExchangeName, "fanout", true);
 
-             }
+     
+            return Ok();
 
+        }
         public static void CreateConnection()
         {
             _factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
             _connection = _factory.CreateConnection();
+            
             _model = _connection.CreateModel();
-            _model.ExchangeDeclare(ExchangeName, "fanout", false);
+            _model.ExchangeDeclare(ExchangeName, "fanout", true);
         }
 
-    }
+        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public class Message
-    {
-        private static ConnectionFactory _factory;
-        private static IConnection _connection;
-        private static IModel _model;
-        private const string QueueName = "BuyerTransaction_Exchange";
-        private const string AllQueueName = "AllPublish_Exchange";
-        public static void send(string queueMessage)
+        [HttpGet]
+        [Route("Get")]
+        public IActionResult ReceiveMessage()
         {
-            queueMessage = "hello from testing";
-
-            _model.BasicPublish(QueueName, "", null, Encoding.UTF8.GetBytes(queueMessage));
-
-
+            var message = CreateConsumerChannel();
+            return Ok(message);
         }
 
-        public void createConnection()
+
+        public string CreateConsumerChannel()
         {
-            var channel=_connection.CreateModel();
-            channel.ExchangeDeclare(QueueName, "total");
-            channel.QueueDeclare(AllQueueName, true, true, false, null);
-            channel.QueueBind(AllQueueName, QueueName,"Transaction");
-            _factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
-            _connection = _factory.CreateConnection();
-          _model.ExchangeDeclare(QueueName, "fanout", false);
+            var message = "";
+            if (!persistentConnection.IsConnected)
+            {
+                persistentConnection.TryConnect();
+            }
+            using (var channel = persistentConnection.CreateModel())
+            {
+                channel.ExchangeDeclare(ExchangeName, type: "fanout", true);
+
+                channel.QueueDeclare(queue: ExchangeName,
+                     durable: true,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
+
+                channel.QueueBind(queue: ExchangeName, exchange: ExchangeName, routingKey: "", arguments: null);
+
+                var consumer = new EventingBasicConsumer(channel);
+                channel.BasicConsume(ExchangeName, false, consumer);
+
+                // channel.ToString();
+
+                consumer.Received += (model, ea) =>
+                {
+                    //var eventName = ea.RoutingKey;
+                    message += Encoding.UTF8.GetString(ea.Body);
+                    channel.BasicAck(ea.DeliveryTag, multiple: false);
+                };
+
+                channel.QueuePurge(ExchangeName);
+            }
+
+            return message;
         }
+
     }
 }

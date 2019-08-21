@@ -1,4 +1,5 @@
 ﻿using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,7 @@ namespace EventBusRabbitMQ
         private readonly string queueName;
         private readonly IModel consumerChannel;
         private IModel _model;
-        private const string ExchangeName = "BuyerTransaction_Exchange";
+        private const string ExchangeName = "BuyerTransaction_ExchangeFromOperation";
 
         //message pass when transaction initialize
         //pass message in queue
@@ -35,7 +36,7 @@ namespace EventBusRabbitMQ
             return message;
         }
 
-        private IModel CreateConsumerChannel()
+        public IModel CreateConsumerChannel()
         {
             //Check rabbitMQ connection By Lalji 13/08/2019
             if (!persistentConnection.IsConnected)
@@ -44,6 +45,29 @@ namespace EventBusRabbitMQ
             }
 
             var channel = persistentConnection.CreateModel();
+
+            channel.ExchangeDeclare(exchange: ExchangeName, type: "fanout", true);
+
+            channel.QueueDeclare(queue: queueName,
+                                 durable: true,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
+
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received +=  (model, ea) =>
+            {
+                var eventName = ea.RoutingKey;
+                var message = Encoding.UTF8.GetString(ea.Body);
+
+
+                channel.BasicAck(ea.DeliveryTag, multiple: false);
+            };
+
+            channel.BasicConsume(queue: queueName,
+                                 autoAck: false,
+                                 consumer: consumer);
+
             return channel;
         }
 
