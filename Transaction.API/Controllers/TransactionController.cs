@@ -11,7 +11,7 @@ using Transaction.API.Application.Queries;
 
 namespace Transaction.API.Controllers
 {
-    //[Produces("application/json")]
+    [Produces("application/json")]
     [Route("api/Transaction")]
 
     //by Akshay
@@ -45,19 +45,20 @@ namespace Transaction.API.Controllers
 
         }
 
-        [Route("sale")]
+        [Route("SaleTrade")]
         [HttpPost]
-        public async Task<IActionResult> saleTrade([FromBody]string TransactionId)
+        public async Task<bool> SaleTrade([FromBody]SaleTransactionCommand saleTransactionCommand)
         {
-            try
-            {
-                //logic
-            }
-            catch
-            {
+            return await _mediator.Send(saleTransactionCommand);
+            //try
+            //{
+            //    //logic
+            //}
+            //catch
+            //{
 
-            }
-            return Ok();
+            //}
+            //return Ok();
         }
     }
 }
