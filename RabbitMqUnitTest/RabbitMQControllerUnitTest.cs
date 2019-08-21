@@ -22,7 +22,7 @@ namespace RabbitMqUnitTest
             _connectionFactoryMock = new Mock<IConnectionFactory>();
             mockChannel = new Mock<IModel>();
             mockConnection = new Mock<IConnection>();
-            IRabbitMQPersistentConnection mQPersistentConnection = new DefaultRabbitMQPersistentConnection(_connectionFactoryMock.Object);
+           IRabbitMQPersistentConnection mQPersistentConnection = new DefaultRabbitMQPersistentConnection(_connectionFactoryMock.Object);
             rabbitMQController = new RabbitMQController(mQPersistentConnection);
         }
 
@@ -30,7 +30,7 @@ namespace RabbitMqUnitTest
         public void Sendmessage_result_notnull_check()
         {
             //Arrange
-            string fakemessage = "fake message1";
+            string fakemessage = "fake-message4";
 
             //Act
             var result = rabbitMQController.SendMessage(fakemessage);

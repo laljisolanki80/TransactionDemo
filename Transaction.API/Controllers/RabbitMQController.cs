@@ -62,6 +62,7 @@ namespace Transaction.API.Controllers
         [Route("Get")]
         public IActionResult ReceiveMessage()
         {
+            CreateConnection();
             var message = CreateConsumerChannel();
             return Ok(message);
         }
@@ -70,11 +71,10 @@ namespace Transaction.API.Controllers
         public string CreateConsumerChannel()
         {
             var message = "";
-            if (!persistentConnection.IsConnected)
-            {
-                persistentConnection.TryConnect();
-            }
-            using (var channel = persistentConnection.CreateModel())
+
+            CreateConnection();
+
+            using (var channel = _connection.CreateModel())
             {
                 channel.ExchangeDeclare(ExchangeName, type: "fanout", true);
 
