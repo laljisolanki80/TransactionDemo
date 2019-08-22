@@ -64,12 +64,7 @@ namespace Transaction.Infrastructure.Service
                         if (buy.RemainingQuantity > 0)
                         {
                             buy.TransactionStatus = TransactionStatus.Hold;
-                        }
-                        else
-                        {
-                            sell.TransactionStatus = TransactionStatus.OperatorFail;
-                            buy.TransactionStatus = TransactionStatus.OperatorFail;
-                        }
+                        }                        
                     }
                     else
                     {
