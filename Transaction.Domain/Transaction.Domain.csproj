@@ -5,24 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AggreagatesModels\BuyerAggregate\**" />
-    <Compile Remove="AggreagatesModels\SellerAggregate\**" />
     <Compile Remove="SeedWork\**" />
-    <EmbeddedResource Remove="AggreagatesModels\BuyerAggregate\**" />
-    <EmbeddedResource Remove="AggreagatesModels\SellerAggregate\**" />
     <EmbeddedResource Remove="SeedWork\**" />
-    <None Remove="AggreagatesModels\BuyerAggregate\**" />
-    <None Remove="AggreagatesModels\SellerAggregate\**" />
     <None Remove="SeedWork\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AggreagatesModels\" />
   </ItemGroup>
 
 </Project>

@@ -15,14 +15,16 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         public decimal RemainingQuantity { get; set; }
         public DateTime InsertTime { get; set; }
         public TransactionStatus TransactionStatus { get; set; }
-        public BuyerData(decimal buyPrice,decimal buyQuantity,decimal settledQuantity,
-            decimal remainingQuantity)
+        public BuyerData()
+        {
+
+        }
+        public BuyerData(decimal buyPrice,decimal buyQuantity)
         {
             BuyId = Guid.NewGuid();
             BuyPrice = buyPrice;
             BuyQuantity = buyQuantity;
-            SettledQuantity = settledQuantity;
-            RemainingQuantity = remainingQuantity;
+            RemainingQuantity = buyQuantity;
             InsertTime = DateTime.Now;
             TransactionStatus = TransactionStatus.Hold;
         }

@@ -15,8 +15,10 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Transaction.API.Application.Events;
 using Transaction.Domain.IRepository;
+using Transaction.Domain.IService;
 using Transaction.Infrastructure.DataBase;
 using Transaction.Infrastructure.Repository;
+using Transaction.Infrastructure.Service;
 
 namespace Transaction.API
 {
@@ -33,19 +35,17 @@ namespace Transaction.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddTransient<ISellerRepository, SellerRepository>(); // add Akshay
+            services.AddTransient<ISellerRepository, SellerRepository>();
+            services.AddTransient<IBuyerRepository, BuyerRepository>();
+            services.AddTransient<ISellerService, SellerService>();
+            services.AddTransient<IBuyerService, BuyerService>();
+            services.AddTransient<ILedgerRepository, LedgerRepository>();
             services.AddOptions();
             services.AddDbContext<TransactionDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
-            //System.Console.WriteLine("ConnectionString");
             AddRabbitMQConfigs(services);
-            //services.AddEntityFrameworkStores<BuyerDbContext>();
-            //var container = new ContainerBuilder();
-            //container.Populate(services);
-            //container.RegisterModule(new MediatorModule());
-            //container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
-            //new AutofacServiceProvider(container.Build());
+     
         }
 
         private void AddRabbitMQConfigs(IServiceCollection services)
