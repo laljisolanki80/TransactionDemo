@@ -8,7 +8,7 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
     {
         public string UniqId { get; set; }
         public string ErrorCode { get; set; }
-        public string StatusCode { get; set; }
+        public int StatusCode { get; set; }
         public string StatusMessage { get; set; }
        
     }

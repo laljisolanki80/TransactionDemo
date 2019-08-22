@@ -21,12 +21,21 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         }
         public SellerData(decimal sellPrice, decimal sellQuantity)
         {
-            SellerId =Guid.NewGuid();
+            SellerId = Guid.NewGuid();
             SellPrice = sellPrice;
             SellQuantity = sellQuantity;
-            RemainingQuantity =sellQuantity;
-            InsertTime =DateTime.Now;
-            TransactionStatus=TransactionStatus.Hold;
+            RemainingQuantity = sellQuantity;
+            InsertTime = DateTime.Now;
+            TransactionStatus = TransactionStatus.Hold;
         }
+        //public SellerData(TransactionModel)
+        //{
+        //    SellerId = Guid.NewGuid();
+        //    SellPrice = sellPrice;
+        //    SellQuantity = sellQuantity;
+        //    RemainingQuantity = sellQuantity;
+        //    InsertTime = DateTime.Now;
+        //    TransactionStatus = TransactionStatus.Hold;
+        //}
     }
 }

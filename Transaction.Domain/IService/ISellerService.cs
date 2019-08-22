@@ -9,5 +9,6 @@ namespace Transaction.Domain.IService
     public interface ISellerService
     {
         Task<TransactionResponse> Execute(SellerData sellerData );
+        //Task<TransactionResponse> Execute(TransactionModel transactionModel );
     }
 }

@@ -31,17 +31,13 @@ namespace Transaction.API.Controllers
         [HttpPost]
         public async Task<IActionResult> SellTrade([FromBody]TransactionModel transactionModel)
         {
-            
-            SellerData sellerData = new SellerData(transactionModel.Price, transactionModel.Quantity);
-            TransactionResponse response = null;
-            try
-            {                
-                response =await _sellerService.Execute(sellerData);
-            }
-            catch(Exception ex)
+            if (!ModelState.IsValid)
             {
-                
+                return BadRequest(ModelState);
             }
+            SellerData sellerData = new SellerData(transactionModel.Price, transactionModel.Quantity);
+            //TransactionResponse response = await _sellerService.Execute(transactionModel);
+            TransactionResponse response = await _sellerService.Execute(sellerData);            
             return Ok(response);
         }
 
@@ -49,16 +45,12 @@ namespace Transaction.API.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyTrade([FromBody]TransactionModel transactionModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             BuyerData buyerData = new BuyerData(transactionModel.Price, transactionModel.Quantity);
-            TransactionResponse response = null;
-            try
-            {
-                response=await _buyerService.Execute(buyerData);
-            }
-            catch (Exception ex)
-            {
-               
-            }
+            TransactionResponse response=await _buyerService.Execute(buyerData);
             return Ok(response);
         }
         //[HttpPost]

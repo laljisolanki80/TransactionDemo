@@ -25,92 +25,101 @@ namespace Transaction.Infrastructure.Service
         {
             Console.WriteLine(buy.BuyPrice + " : " + buy.BuyQuantity + " : " + buy.InsertTime);
             Console.WriteLine("------------------------------------------------------");
-
-            await _buyerRepository.AddBuyerData(buy);
-            List<SellerData> SellerList = await _sellerRepository.GetGreterSellerPriceListFromBuyerPrice(buy.BuyPrice);
-
-
-            foreach (var sell in SellerList)
+            try
             {
-                decimal Quantities = 0.0m;
-                if (buy.RemainingQuantity >= sell.RemainingQuantity)
+                await _buyerRepository.AddBuyerData(buy);
+                List<SellerData> SellerList = await _sellerRepository.GetGreterSellerPriceListFromBuyerPrice(buy.BuyPrice);
+
+
+                foreach (var sell in SellerList)
                 {
-                    Quantities = sell.RemainingQuantity;
-                }
-                if (sell.RemainingQuantity >= buy.RemainingQuantity)
-                {
-                    Quantities = buy.RemainingQuantity;
-                }
-                if (buy.RemainingQuantity >= sell.RemainingQuantity)
-                {
-                    buy.RemainingQuantity -= sell.RemainingQuantity;
-                    buy.SettledQuantity += sell.RemainingQuantity;
-                    sell.SettledQuantity = sell.SettledQuantity + sell.RemainingQuantity;
-                    sell.RemainingQuantity = sell.SellQuantity - sell.SettledQuantity;
-                    if (sell.RemainingQuantity == 0 || sell.RemainingQuantity > 0
-                        || buy.RemainingQuantity > 0 || buy.RemainingQuantity == 0)
+                    decimal Quantities = 0.0m;
+                    if (buy.RemainingQuantity >= sell.RemainingQuantity)
                     {
-                        if (sell.RemainingQuantity == 0)
+                        Quantities = sell.RemainingQuantity;
+                    }
+                    if (sell.RemainingQuantity >= buy.RemainingQuantity)
+                    {
+                        Quantities = buy.RemainingQuantity;
+                    }
+                    if (buy.RemainingQuantity >= sell.RemainingQuantity)
+                    {
+                        buy.RemainingQuantity -= sell.RemainingQuantity;
+                        buy.SettledQuantity += sell.RemainingQuantity;
+                        sell.SettledQuantity = sell.SettledQuantity + sell.RemainingQuantity;
+                        sell.RemainingQuantity = sell.SellQuantity - sell.SettledQuantity;
+                        if (sell.RemainingQuantity == 0 || sell.RemainingQuantity > 0
+                            || buy.RemainingQuantity > 0 || buy.RemainingQuantity == 0)
+                        {
+                            if (sell.RemainingQuantity == 0)
+                            {
+                                sell.TransactionStatus = TransactionStatus.Success;
+                            }
+                            if (sell.RemainingQuantity > 0)
+                            {
+                                sell.TransactionStatus = TransactionStatus.Hold;
+                            }
+                            if (buy.RemainingQuantity == 0)
+                            {
+                                buy.TransactionStatus = TransactionStatus.Success;
+                            }
+                            if (buy.RemainingQuantity > 0)
+                            {
+                                buy.TransactionStatus = TransactionStatus.Hold;
+                            }
+                            else
+                            {
+                                sell.TransactionStatus = TransactionStatus.OperatorFail;
+                                buy.TransactionStatus = TransactionStatus.OperatorFail;
+                            }
+                        }
+                        else
+                        {
+                            sell.TransactionStatus = TransactionStatus.SystemFail;
+                            buy.TransactionStatus = TransactionStatus.SystemFail;
+                        }
+                    }
+                    if (buy.RemainingQuantity < sell.RemainingQuantity)
+                    {
+                        sell.RemainingQuantity -= buy.RemainingQuantity;
+                        sell.SettledQuantity = sell.SellQuantity - sell.RemainingQuantity;
+                        if (sell.RemainingQuantity > 0)
+                        {
+                            buy.SettledQuantity += buy.RemainingQuantity;
+                            buy.RemainingQuantity = 0;
+                            sell.TransactionStatus = TransactionStatus.Hold;
+                            if (buy.RemainingQuantity == 0)
+                            {
+                                buy.TransactionStatus = TransactionStatus.Success;
+                            }
+                            else
+                            {
+                                buy.TransactionStatus = TransactionStatus.Hold;
+                            }
+                        }
+                        else
                         {
                             sell.TransactionStatus = TransactionStatus.Success;
                         }
-                        if (sell.RemainingQuantity > 0)
-                        {
-                            sell.TransactionStatus = TransactionStatus.Hold;
-                        }
-                        if (buy.RemainingQuantity == 0)
-                        {
-                            buy.TransactionStatus = TransactionStatus.Success;
-                        }
-                        if (buy.RemainingQuantity > 0)
-                        {
-                            buy.TransactionStatus = TransactionStatus.Hold;
-                        }
-                        else
-                        {
-                            sell.TransactionStatus = TransactionStatus.OperatorFail;
-                            buy.TransactionStatus = TransactionStatus.OperatorFail;
-                        }
                     }
-                    else
-                    {
-                        sell.TransactionStatus = TransactionStatus.SystemFail;
-                        buy.TransactionStatus = TransactionStatus.SystemFail;
-                    }
+                    await _sellerRepository.UpdateSellerData(sell);
+                    await _buyerRepository.UpdateBuyerData(buy);
+                    await _ledgerRepository.AddLedgerData(sell, buy, Quantities);
                 }
-                if (buy.RemainingQuantity < sell.RemainingQuantity)
-                {
-                    sell.RemainingQuantity -= buy.RemainingQuantity;
-                    sell.SettledQuantity = sell.SellQuantity - sell.RemainingQuantity;
-                    if (sell.RemainingQuantity > 0)
-                    {
-                        buy.SettledQuantity += buy.RemainingQuantity;
-                        buy.RemainingQuantity = 0;
-                        sell.TransactionStatus = TransactionStatus.Hold;
-                        if (buy.RemainingQuantity == 0)
-                        {
-                            buy.TransactionStatus = TransactionStatus.Success;
-                        }
-                        else
-                        {
-                            buy.TransactionStatus = TransactionStatus.Hold;
-                        }
-                    }
-                    else
-                    {
-                        sell.TransactionStatus = TransactionStatus.Success;
-                    }
-                }
-                await _sellerRepository.UpdateSellerData(sell);
-                await _buyerRepository.UpdateBuyerData(buy);
-                await _ledgerRepository.AddLedgerData(sell, buy, Quantities);
-            }
-            TransactionResponse transactionResponse = new TransactionResponse();
-            transactionResponse.UniqId = buy.BuyId.ToString();
-            transactionResponse.StatusCode = buy.TransactionStatus.ToString();
-            transactionResponse.StatusMessage = ((TransactionStatus)buy.TransactionStatus).ToString();
+                TransactionResponse transactionResponse = new TransactionResponse();
+                transactionResponse.UniqId = buy.BuyId.ToString();
+                transactionResponse.StatusCode = (int)buy.TransactionStatus;
+                transactionResponse.StatusMessage = buy.TransactionStatus.ToString();
 
-            return transactionResponse;
+                return transactionResponse;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+            
+
+            
         }
     }
 }
