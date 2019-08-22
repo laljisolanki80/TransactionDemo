@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Transaction.API.Application.Events;
 
 namespace Transaction.API.Controllers
 {
@@ -19,19 +20,30 @@ namespace Transaction.API.Controllers
         //this is testing controller for RabbitMQ by lalji 14/06/2016
 
         private readonly IRabbitMQPersistentConnection persistentConnection;
+        private readonly TransactionCancelEvent transactionCancelEvent;
         private const string ExchangeName = "BuyerTransaction_ExchangeTEST";
         private static IModel _model;
         private static ConnectionFactory _factory;
         private static RabbitMQ.Client.IConnection _connection;
         private string TestRabbit;
+        private IRabbitMQPersistentConnection mQPersistentConnection;
         private readonly IModel Channel;
+        private readonly TransactionFailedEvent transactionFailedEvent;
+        private readonly TransactionSettleEvent transactionSettleEvent;
+        private readonly TransactionPartialSettleEvent transactionPartialSettleEvent;
+        private readonly TransactionOnHoldEvent transactionOnHoldEvent;
 
-       
-        public RabbitMQController(IRabbitMQPersistentConnection persistentConnection)
+        public RabbitMQController(IRabbitMQPersistentConnection mQPersistentConnection)
         {
-            this.persistentConnection = persistentConnection;
-            
+            this.mQPersistentConnection = mQPersistentConnection;
+
+            this.transactionCancelEvent = new TransactionCancelEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
+            this.transactionFailedEvent = new TransactionFailedEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
+            this.transactionSettleEvent = new TransactionSettleEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
+            this.transactionPartialSettleEvent = new TransactionPartialSettleEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
+            this.transactionOnHoldEvent = new TransactionOnHoldEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
         }
+
         [HttpPost]
         [Route("Send")]
         public IActionResult SendMessage(string message)
@@ -43,7 +55,7 @@ namespace Transaction.API.Controllers
             _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
             _model.ExchangeDeclare(ExchangeName, "fanout", true);
 
-     
+
             return Ok();
 
         }
@@ -51,12 +63,12 @@ namespace Transaction.API.Controllers
         {
             _factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
             _connection = _factory.CreateConnection();
-            
+
             _model = _connection.CreateModel();
             _model.ExchangeDeclare(ExchangeName, "fanout", true);
         }
 
-        
+
 
         [HttpGet]
         [Route("Get")]
@@ -89,7 +101,7 @@ namespace Transaction.API.Controllers
                 var consumer = new EventingBasicConsumer(channel);
                 channel.BasicConsume(ExchangeName, false, consumer);
 
-                
+
 
                 consumer.Received += (model, ea) =>
                 {
@@ -104,5 +116,45 @@ namespace Transaction.API.Controllers
             return message;
         }
 
+          //for testing event message of transaction status By lalji
+
+        [HttpGet]
+        [Route("hold")]
+        public IActionResult Test()
+        {
+            transactionOnHoldEvent.SendMessage();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("cancel")]
+        public IActionResult Test1()
+        {
+            transactionCancelEvent.SendMessage();
+            return Ok();
+        }
+        [HttpGet]
+        [Route("failed")]
+        public IActionResult Test2()
+        {
+            transactionFailedEvent.SendMessage();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("settle")]
+        public IActionResult Test3()
+        {
+            transactionSettleEvent.SendMessage();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("partial")]
+        public IActionResult Test4()
+        {
+            transactionPartialSettleEvent.SendMessage();
+            return Ok();
+        }
     }
 }

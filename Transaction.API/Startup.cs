@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
+using Transaction.API.Application.Events;
 using Transaction.Domain.IRepository;
 using Transaction.Infrastructure.DataBase;
 using Transaction.Infrastructure.Repository;
@@ -79,6 +80,8 @@ namespace Transaction.API
                 return new RabbitMQOperations(connection, queueName);
             });
 
+          
+           
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

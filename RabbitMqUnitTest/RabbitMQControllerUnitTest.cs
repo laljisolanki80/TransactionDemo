@@ -23,7 +23,7 @@ namespace RabbitMqUnitTest
             mockChannel = new Mock<IModel>();
             mockConnection = new Mock<IConnection>();
            IRabbitMQPersistentConnection mQPersistentConnection = new DefaultRabbitMQPersistentConnection(_connectionFactoryMock.Object);
-            rabbitMQController = new RabbitMQController(mQPersistentConnection);
+           // rabbitMQController = new RabbitMQController(mQPersistentConnection);
         }
 
         [Fact]
