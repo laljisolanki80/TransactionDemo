@@ -10,9 +10,9 @@ using Transaction.Infrastructure.DataBase;
 
 namespace Transaction.Infrastructure.Repository
 {
-    public class BuyerRepository:IBuyerRepository
+    public class BuyerRepository : IBuyerRepository
     {
-        private TransactionDbContext _transactionDbContext;
+        public TransactionDbContext _transactionDbContext;
         public BuyerRepository(TransactionDbContext transactionDbContext)
         {
             _transactionDbContext = transactionDbContext;
@@ -22,109 +22,36 @@ namespace Transaction.Infrastructure.Repository
             _transactionDbContext.BuyerDatas.Add(buyerData);
             await _transactionDbContext.SaveChangesAsync();
         }
-        public async Task GetBuyerTransactionAsync()
+
+        public async Task<List<BuyerData>> GetGreterBuyerPriceListFromSellerPrice(decimal SellerPrice)
         {
-            foreach (var buy in _transactionDbContext.BuyerDatas)
+            try
             {
-                Console.WriteLine(buy.BuyPrice + " : " + buy.BuyQuantity + " : " + buy.InsertTime);
-                Console.WriteLine("------------------------------------------------------");
-                var compare = from sellRaw in _transactionDbContext.SellerDatas
-                              where sellRaw.SellPrice == buy.BuyPrice
-                              orderby sellRaw.InsertTime
-                              select sellRaw;
+                var compare = from buyRaw in _transactionDbContext.BuyerDatas
+                              where buyRaw.BuyPrice == SellerPrice
+                              orderby buyRaw.InsertTime
+                              select buyRaw;
 
-                var Sellerlist = compare.ToList();
-                foreach (var sell in Sellerlist)
+                if (compare != null)
                 {
-                    decimal Quantities = 0.0m;
-                    if (buy.RemainingQuantity >= sell.RemainingQuantity)
-                    {
-                        Quantities = sell.RemainingQuantity;
-                    }
-                    if (sell.RemainingQuantity >= buy.RemainingQuantity)
-                    {
-                        Quantities = buy.RemainingQuantity;
-                    }
-                    if (buy.RemainingQuantity >= sell.RemainingQuantity)
-                    {
-                        buy.RemainingQuantity -= sell.RemainingQuantity;
-                        buy.SettledQuantity += sell.RemainingQuantity;
-                        sell.SettledQuantity = sell.SettledQuantity + sell.RemainingQuantity;
-                        sell.RemainingQuantity = sell.SellQuantity - sell.SettledQuantity;
-                        if (sell.RemainingQuantity == 0 || sell.RemainingQuantity > 0
-                            || buy.RemainingQuantity > 0 || buy.RemainingQuantity == 0)
-                        {
-                            if (sell.RemainingQuantity == 0)
-                            {
-                                sell.TransactionStatus = TransactionStatus.Success;
-                            }
-                            if (sell.RemainingQuantity > 0)
-                            {
-                                sell.TransactionStatus = TransactionStatus.Hold;
-                            }
-                            if (buy.RemainingQuantity == 0)
-                            {
-                                buy.TransactionStatus = TransactionStatus.Success;
-                            }
-                            if (buy.RemainingQuantity > 0)
-                            {
-                                buy.TransactionStatus = TransactionStatus.Hold;
-                            }
-                            else
-                            {
-                                sell.TransactionStatus = TransactionStatus.OperatorFail;
-                                buy.TransactionStatus = TransactionStatus.OperatorFail;
-                            }
-                        }
-                        else
-                        {
-                            sell.TransactionStatus = TransactionStatus.SystemFail;
-                            buy.TransactionStatus = TransactionStatus.SystemFail;
-                        }
-                    }
-                    if (buy.RemainingQuantity < sell.RemainingQuantity)
-                    {
-                        sell.RemainingQuantity -= buy.RemainingQuantity;
-                        sell.SettledQuantity = sell.SellQuantity - sell.RemainingQuantity;
-                        if (sell.RemainingQuantity > 0)
-                        {
-                            buy.SettledQuantity += buy.RemainingQuantity;
-                            buy.RemainingQuantity = 0;
-                            sell.TransactionStatus = TransactionStatus.Hold;
-                            if (buy.RemainingQuantity == 0)
-                            {
-                                buy.TransactionStatus = TransactionStatus.Success;
-                            }
-                            else
-                            {
-                                buy.TransactionStatus = TransactionStatus.Hold;
-                            }
-                        }
-                        else
-                        {
-                            sell.TransactionStatus = TransactionStatus.Success;
-                        }
-                    }
+                    var BuyerList = compare.ToList();
 
-
-                    _transactionDbContext.BuyerDatas.Update(buy);
-                    _transactionDbContext.SellerDatas.Update(sell);
-
-                    //Ledger ledger = new Ledger();
-                    //ledger.BuyerId = buy.BuyId;
-                    //ledger.DisplayId = Guid.NewGuid().ToString();
-                    //ledger.BuyerPrice = (double)buy.BuyPrice;
-                    //ledger.SellerId = sell.Id;
-                    //ledger.SellerPrice = (double)sell.Price;
-                    //ledger.SellerQuantity = (long)Quantities;
-                    //ledger.ProcessTime = DateTime.Now;
-                    //ledger.Status = Status.Success;
-
-                    //_transactionDbContext.Ledgers.Add(ledger);
-
+                    return await Task.FromResult(BuyerList);
                 }
-                _transactionDbContext.SaveChanges();
+                else
+                {
+                    return null;
+                }               
             }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task UpdateBuyerData(BuyerData buy)
+        {
+            _transactionDbContext.BuyerDatas.Update(buy);
+            await _transactionDbContext.SaveChangesAsync();
         }
     }
 }

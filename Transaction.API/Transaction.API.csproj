@@ -12,12 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Application\Models\TransactionModel.cs" />
+    <Compile Remove="Application\Models\BuyerDataModel.cs" />
+    <Compile Remove="Application\Models\SellerDataModel.cs" />
     <Compile Remove="Application\Validation\TransactionStatus.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Application\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,7 +9,8 @@ namespace Transaction.Domain.IRepository
    public interface ISellerRepository
     {
         Task AddSellerData(SellerData sellerData);
-        Task GetSellerTransactionAsync();
+        Task<List<SellerData>> GetGreterSellerPriceListFromBuyerPrice(decimal BuyerPrice);
+        Task UpdateSellerData(SellerData sell);
 
     }
 }

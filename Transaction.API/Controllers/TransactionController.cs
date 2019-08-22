@@ -9,42 +9,56 @@ using Microsoft.Extensions.Logging;
 using Transaction.API.Application.Models;
 using Transaction.Domain.AggreagatesModels.Aggregate;
 using Transaction.Domain.IRepository;
+using Transaction.Domain.IService;
 
 namespace Transaction.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Transaction")]
 
-    public class TransactionController : Controller
+    public class TransactionController : ControllerBase
     {
-        private ISellerRepository _sellerRepository;
-        private IBuyerRepository _buyerRepository;
-        public TransactionController(ISellerRepository sellerRepository,IBuyerRepository buyerRepository)
-        {
-            _sellerRepository = sellerRepository;
-            _buyerRepository = buyerRepository;
-        }
-        [Route("SaleTrade")]
-        [HttpGet]
-        public async Task SaleTrade([FromBody]SellerDataModel sellerDataModel)
-        {
-            SellerData sellerData = new SellerData(sellerDataModel.SellPrice, sellerDataModel.SellQuantity,
-                sellerDataModel.SettledQuantity, sellerDataModel.RemainingQuantity);
+        private readonly ISellerService _sellerService;
+        private readonly IBuyerService _buyerService;
 
-            _sellerRepository.AddSellerData(sellerData);
-            _sellerRepository.GetSellerTransactionAsync();
+        public TransactionController(ISellerService sellerService,IBuyerService buyerService)
+        {
+            _sellerService = sellerService;
+            _buyerService = buyerService;
+        }
+        [Route("SellTrade")]
+        [HttpPost]
+        public async Task<IActionResult> SellTrade([FromBody]TransactionModel transactionModel)
+        {
+            
+            SellerData sellerData = new SellerData(transactionModel.Price, transactionModel.Quantity);
+            TransactionResponse response = null;
+            try
+            {                
+                response =await _sellerService.Execute(sellerData);
+            }
+            catch(Exception ex)
+            {
+                
+            }
+            return Ok(response);
         }
 
         [Route("BuyTrade")]
         [HttpPost]
-        public async Task BuyTrade([FromBody]BuyerDataModel buyerDataModel)
+        public async Task<IActionResult> BuyTrade([FromBody]TransactionModel transactionModel)
         {
-            BuyerData buyerData = new BuyerData(buyerDataModel.BuyPrice, buyerDataModel.BuyQuantity,
-                buyerDataModel.SettledQuantity, buyerDataModel.RemainingQuantity);
-
-            _buyerRepository.AddBuyerData(buyerData);
-            _buyerRepository.GetBuyerTransactionAsync();
-            
+            BuyerData buyerData = new BuyerData(transactionModel.Price, transactionModel.Quantity);
+            TransactionResponse response = null;
+            try
+            {
+                response=await _buyerService.Execute(buyerData);
+            }
+            catch (Exception ex)
+            {
+               
+            }
+            return Ok(response);
         }
     }
 }
