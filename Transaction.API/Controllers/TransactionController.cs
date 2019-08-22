@@ -20,6 +20,7 @@ namespace Transaction.API.Controllers
     {
         private readonly ISellerService _sellerService;
         private readonly IBuyerService _buyerService;
+        private readonly ICancelTransactionService _cancelTransactionService;
 
         public TransactionController(ISellerService sellerService,IBuyerService buyerService)
         {
@@ -60,5 +61,17 @@ namespace Transaction.API.Controllers
             }
             return Ok(response);
         }
+        //[HttpPost]
+        ////[Route("CancelTrade")]
+        //public async Task<IActionResult> CancelOrder([FromBody] string TransactionId)
+        //{
+
+        //    if (TransactionId != null)
+        //    {
+        //        await _cancelTransactionService.Execute(TransactionId)
+        //    }
+
+        //    return Ok()
+        //}
     }
 }
