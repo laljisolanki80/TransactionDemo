@@ -35,12 +35,28 @@ namespace Transaction.Infrastructure.Repository
 
         public async Task<List<SellerData>> GetGreterSellerPriceListFromBuyerPrice(decimal BuyerPrice)
         {
-            var compare = from sellRaw in _transactionDbContext.SellerDatas
-                          where sellRaw.SellPrice == BuyerPrice
-                          orderby sellRaw.InsertTime
-                          select sellRaw;
-            var SellerList = compare.ToList();
-            return await Task.FromResult(SellerList);
+            try
+            {
+                var compare = from sellRaw in _transactionDbContext.SellerDatas
+                              where sellRaw.SellPrice == BuyerPrice
+                              orderby sellRaw.InsertTime
+                              select sellRaw;
+                if (compare != null)
+                {
+                    var SellerList = compare.ToList();
+                    return await Task.FromResult(SellerList);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }       
+            
+            
         }
 
         public async Task UpdateSellerData(SellerData sell)
