@@ -6,59 +6,45 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Transaction.API.Application.Command;
-using Transaction.API.Application.Queries;
+using Transaction.API.Application.Models;
+using Transaction.Domain.AggreagatesModels.Aggregate;
+using Transaction.Domain.IRepository;
 
 namespace Transaction.API.Controllers
 {
     [Produces("application/json")]
     [Route("api/Transaction")]
 
-    //by Akshay
     public class TransactionController : Controller
     {
-        private readonly IMediator _mediator;
-        private readonly ILogger<TransactionController> _logger;
-        private readonly IBuyerQueries _buyerQueries;
-
-        public TransactionController(IMediator mediator,
-            ILogger<TransactionController> logger,
-            IBuyerQueries buyerQueries)
+        private ISellerRepository _sellerRepository;
+        private IBuyerRepository _buyerRepository;
+        public TransactionController(ISellerRepository sellerRepository,IBuyerRepository buyerRepository)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _buyerQueries = buyerQueries;
+            _sellerRepository = sellerRepository;
+            _buyerRepository = buyerRepository;
+        }
+        [Route("SaleTrade")]
+        [HttpGet]
+        public async Task SaleTrade([FromBody]SellerDataModel sellerDataModel)
+        {
+            SellerData sellerData = new SellerData(sellerDataModel.SellPrice, sellerDataModel.SellQuantity,
+                sellerDataModel.SettledQuantity, sellerDataModel.RemainingQuantity);
+
+            _sellerRepository.AddSellerData(sellerData);
+            _sellerRepository.GetSellerTransactionAsync();
         }
 
         [Route("BuyTrade")]
-        [HttpGet]
-        public async Task<bool> BuyTrade([FromBody]BuyTransactionCommand buyTransactionCommand)
-        {
-            return await _mediator.Send(buyTransactionCommand);
-            //try
-            //{
-            //}
-            //catch
-            //{
-            //}
-            //return Ok("success done");
-
-        }
-
-        [Route("SaleTrade")]
         [HttpPost]
-        public async Task<bool> SaleTrade([FromBody]SaleTransactionCommand saleTransactionCommand)
+        public async Task BuyTrade([FromBody]BuyerDataModel buyerDataModel)
         {
-            return await _mediator.Send(saleTransactionCommand);
-            //try
-            //{
-            //    //logic
-            //}
-            //catch
-            //{
+            BuyerData buyerData = new BuyerData(buyerDataModel.BuyPrice, buyerDataModel.BuyQuantity,
+                buyerDataModel.SettledQuantity, buyerDataModel.RemainingQuantity);
 
-            //}
-            //return Ok();
+            _buyerRepository.AddBuyerData(buyerData);
+            _buyerRepository.GetBuyerTransactionAsync();
+            
         }
     }
 }

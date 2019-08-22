@@ -13,9 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
-using Transaction.API.Infrastructure.AutofacModule;
-using Transaction.Domain.AggreagatesModels.BuyerAggregate;
-using Transaction.Infrastructure.Database;
+using Transaction.Domain.IRepository;
+using Transaction.Infrastructure.DataBase;
 using Transaction.Infrastructure.Repository;
 
 namespace Transaction.API
@@ -33,7 +32,7 @@ namespace Transaction.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<IBuyerRepository, BuyerRepository>(); // add Akshay
+            //services.AddTransient<ISellerRepository, SellerRepository>(); // add Akshay
             services.AddOptions();
             services.AddDbContext<TransactionDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
@@ -41,11 +40,11 @@ namespace Transaction.API
             //System.Console.WriteLine("ConnectionString");
             AddRabbitMQConfigs(services);
             //services.AddEntityFrameworkStores<BuyerDbContext>();
-            var container = new ContainerBuilder();
-            container.Populate(services);
-            container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
-            new AutofacServiceProvider(container.Build());
+            //var container = new ContainerBuilder();
+            //container.Populate(services);
+            //container.RegisterModule(new MediatorModule());
+            //container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
+            //new AutofacServiceProvider(container.Build());
         }
 
         private void AddRabbitMQConfigs(IServiceCollection services)

@@ -11,13 +11,23 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.BuyerAggregate;
-using Transaction.Domain.AggreagatesModels.SellerAggregate;
+//using Transaction.Domain.AggreagatesModels.SellerAggregate;
 using Transaction.Domain.SeedWork;
 
 namespace Transaction.Infrastructure.Database
 {
     //IUnitOfWork Add letter by akshay
-    public class TransactionDbContext : DbContext, IUnitOfWork   //DbContext class rename by Lalji previous BuyerDbContext
+    //public class TransactionDbContext : DbContext, IUnitOfWork   //DbContext class rename by Lalji previous BuyerDbContext
+    public class TransactionDbContext : DbContext
+    //{
+    //    public TransactionDbContext(DbContextOptions<TransactionDbContext> options) : base(options)
+    //    {
+
+    //    }
+    //    public DbSet<SellerDataModel> SellerDatas { get; set; }
+    //    public DbSet<BuyerDataModel> BuyerDatas { get; set; }
+    //    public DbSet<Ledger> Ledgers { get; set; }
+    //}
     {
         private readonly IMediator _mediator;
         private IDbContextTransaction _currentTransaction;
@@ -30,7 +40,7 @@ namespace Transaction.Infrastructure.Database
 
         public DbSet<Buyer> Buyers { get; set; }
         public DbSet<Seller> Sellers { get; set; }
-        public DbSet<BuyerTransactionStatus> BuyerTransactionStatus { get;set;}
+        public DbSet<BuyerTransactionStatus> BuyerTransactionStatus { get; set; }
 
         public IDbContextTransaction GetCurrentTransaction => _currentTransaction;
 
