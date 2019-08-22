@@ -16,25 +16,36 @@ namespace EventBusRabbitMQ
     //Added by Lalji 06:05PM 10/08/2019
     public class DefaultRabbitMQPersistentConnection : IRabbitMQPersistentConnection
     {
-        private readonly IConnectionFactory _connectionFactory;
-        private readonly int _retryCount;
-       // private readonly ILogger<DefaultRabbitMQPersistentConnection> _helperlog;
+        private IConnectionFactory _connectionFactory;
         IConnection _connection;
         bool _disposed;
-
-        public DefaultRabbitMQPersistentConnection(IConnectionFactory connectionFactory, int retryCount = 5)
-        {
-            _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
-            _retryCount = retryCount;
-        }
 
         public bool IsConnected
         {
             get
             {
-                return _connection != null && _connection.IsOpen && !_disposed;
+                return _connection != null && _connection.IsOpen;
             }
         }
+
+        public DefaultRabbitMQPersistentConnection(IConnectionFactory connectionFactory)
+        {
+            _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+        }
+
+        public bool TryConnect()
+        {
+            _connection = _connectionFactory
+                          .CreateConnection();
+
+            if (IsConnected)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public IModel CreateModel()
         {
             if (!IsConnected)
@@ -57,23 +68,8 @@ namespace EventBusRabbitMQ
             }
             catch (IOException ex)
             {
-                throw new IOException("RabbitMQ connection can not be disposed" +ex);
+                throw new IOException("RabbitMQ connection can not be disposed");
             }
-        }
-
-        public bool TryConnect()
-        {
-            //_helperlog.LogInformation("RabbitMQ Client is trying to connect");
-
-            _connection = _connectionFactory
-                           .CreateConnection();
-
-            if (IsConnected)
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }
