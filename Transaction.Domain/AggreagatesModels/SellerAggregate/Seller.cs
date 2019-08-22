@@ -17,16 +17,16 @@ namespace Transaction.Domain.AggreagatesModels.SellerAggregate
         public decimal Quantity { get; set; }
         public decimal Price { get; set; }
         public int? GetSellerId => _sellerId;
-        public Seller()
+        public Seller(Guid id)
         {
             _sellerItems = new List<SellerItem>();
         }
-        protected Seller(string id, decimal price, decimal quantity, int? sellerId = null) : this()
-        {
-            _sellerId = sellerId;
-            _sellDate = DateTime.UtcNow;
-            AddSellStartedDomainEvent(id,price,quantity);
-        }
+        //protected Seller(string id, decimal price, decimal quantity, int? sellerId = null) : this()
+        //{
+        //    _sellerId = sellerId;
+        //    _sellDate = DateTime.UtcNow;
+        //    AddSellStartedDomainEvent(id,price,quantity);
+        //}by lalji remove comment
         private void AddSellStartedDomainEvent(string id, decimal price, decimal quantity)
         {
             var sellStartedDomainEvent = new SellStartedDomainEvent(this, id, price, quantity);
