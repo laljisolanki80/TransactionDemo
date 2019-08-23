@@ -11,6 +11,8 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         OperatorFail = 2,
         SystemFail = 3,
         Hold = 4,
-        Refunded = 5
+        Refunded = 5,
+
+
     }
 }
