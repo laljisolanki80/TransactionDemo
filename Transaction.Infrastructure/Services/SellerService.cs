@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.Aggregate;
+using Transaction.Domain.Enum;
 using Transaction.Domain.IRepository;
 using Transaction.Domain.IService;
 
@@ -119,9 +120,12 @@ namespace Transaction.Infrastructure.Service
                 transactionResponse.StatusMessage = sell.TransactionStatus.ToString();
                 return transactionResponse;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                return null;
+                return (new TransactionResponse { ErrorCode = enErrorCode.InternalError });
+                //TransactionResponse transactionResponse = new TransactionResponse();
+                //transactionResponse.ErrorCode = enErrorCode.TryAgain;
+                //return transactionResponse;
             }
             
         }
