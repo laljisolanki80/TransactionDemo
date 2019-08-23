@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Transaction.API.Application.DomainEventHandlers
 {
-    public class TransactionFailedDomainEventHandler:
+    public class TransactionFailedDomainEventHandler
     {
     }
 }

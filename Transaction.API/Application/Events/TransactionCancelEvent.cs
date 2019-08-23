@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using EventBusRabbitMQ.Services;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace Transaction.API.Application.Events
 {
     public class TransactionCancelEvent
     {
-        private readonly RabbitMQSendMessage rabbitMQSendMessage;
+        private RabbitMQEventBus rabbitMQEventBus;
 
-        public TransactionCancelEvent(RabbitMQSendMessage rabbitMQSendMessage)
+        public TransactionCancelEvent(RabbitMQEventBus rabbitMQEventBus)
         {
-            this.rabbitMQSendMessage = rabbitMQSendMessage;
+            this.rabbitMQEventBus = rabbitMQEventBus;
         }
 
         readonly string message = "your transaction has been cancel successfully";

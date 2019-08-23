@@ -1,5 +1,5 @@
-﻿using EventBusRabbitMQ;
-using MediatR;
+﻿using EventBusRabbitMQ.Interfaces;
+using EventBusRabbitMQ.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,9 +42,11 @@ namespace Transaction.API
 
         private void AddRabbitMQConfigs(IServiceCollection services)
         {
+            var logger = NLog.LogManager.GetCurrentClassLogger();
             //configure rabbitMQ connection By Lalji 13/08/2019
             services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
             {
+
                 var factory = new ConnectionFactory()
                 {
                     HostName = Configuration["EventBusConnection"]
@@ -60,27 +62,27 @@ namespace Transaction.API
                     factory.Password = Configuration["EventBusPassword"];
                 }
 
-                return new DefaultRabbitMQPersistentConnection(factory);
+                return new DefaultRabbitMQPersistentConnection(factory, logger);
             });
+
 
             //Configure rabbitmq queue and channel  -Lalji 13-08-2019
-            services.AddSingleton<IRabbitMQOperation>(sp =>
+            services.AddSingleton<IEventBus, RabbitMQEventBus>(sp =>
             {
-                var connection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
-                var queueName = Configuration["GlobalQueue"];
+                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
 
-                return new RabbitMQOperations(connection, queueName);
+                return new RabbitMQEventBus(rabbitMQPersistentConnection, logger);
             });
 
-          
-           
+
+
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
             public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                //add appsettings.json by Lalji 12:40PM 12/08/2019
+                //add appsettings.json by Lalji  12/08/2019
                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
             if (env.IsDevelopment())

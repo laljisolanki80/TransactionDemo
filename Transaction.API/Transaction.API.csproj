@@ -21,6 +21,7 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,11 @@
     <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
     <ProjectReference Include="..\Transaction.Domain\Transaction.Domain.csproj" />
     <ProjectReference Include="..\Transaction.Infrastructure\Transaction.Infrastructure.csproj" />
+    <ProjectReference Include="C:\Users\NIDHI-0059\OneDrive\Desktop\Lalji\Project1\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\Behaviours\" />
   </ItemGroup>
 
 </Project>

@@ -12,10 +12,7 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
 
         public void SetCancellledStatus()
         {
-            if (TransactionStatus.Hold)
-            {
-
-            }
+            
         }
     }
 }
