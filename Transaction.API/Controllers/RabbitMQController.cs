@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EventBusRabbitMQ;
+using EventBusRabbitMQ.Interfaces;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,10 +49,11 @@ namespace Transaction.API.Controllers
         [Route("Send")]
         public IActionResult SendMessage(string message)
         {
-            CreateConnection();
+            //CreateConnection();
             //var channel = consumerChannel;
             // channel.QueueDeclare(message, false, false, false, null);
             //channel.BasicPublish(string.Empty, null, null,Encoding.UTF8.GetBytes(message));
+
             _model.BasicPublish(ExchangeName, "", null, Encoding.UTF8.GetBytes(message));
             _model.ExchangeDeclare(ExchangeName, "fanout", true);
 
@@ -59,14 +61,14 @@ namespace Transaction.API.Controllers
             return Ok();
 
         }
-        public static void CreateConnection()
-        {
-            _factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
-            _connection = _factory.CreateConnection();
+        //public static void CreateConnection()
+        //{
+        //    _factory = new ConnectionFactory { HostName = "localhost", UserName = "guest", Password = "guest" };
+        //    _connection = _factory.CreateConnection();
 
-            _model = _connection.CreateModel();
-            _model.ExchangeDeclare(ExchangeName, "fanout", true);
-        }
+        //    _model = _connection.CreateModel();
+        //    _model.ExchangeDeclare(ExchangeName, "fanout", true);
+        //}
 
 
 
@@ -74,7 +76,7 @@ namespace Transaction.API.Controllers
         [Route("Get")]
         public IActionResult ReceiveMessage()
         {
-            CreateConnection();
+            //CreateConnection();
             var message = CreateConsumerChannel();
             return Ok(message);
         }
@@ -84,7 +86,7 @@ namespace Transaction.API.Controllers
         {
             var message = "";
 
-            CreateConnection();
+            //CreateConnection();
 
             using (var channel = _connection.CreateModel())
             {

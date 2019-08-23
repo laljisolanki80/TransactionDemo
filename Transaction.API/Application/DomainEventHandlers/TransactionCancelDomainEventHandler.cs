@@ -6,7 +6,7 @@ using Transaction.Domain.DomainEvents;
 
 namespace Transaction.API.Application.DomainEventHandlers
 {
-    public class TransactionCancelDomainEventHandler: TransactionCancelDomainEvent
+    public class TransactionCancelDomainEventHandler: INotification<TransactionCancelDomainEvent>
     {
 
     }

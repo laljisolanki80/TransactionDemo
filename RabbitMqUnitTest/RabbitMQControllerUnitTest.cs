@@ -7,6 +7,7 @@ using Xunit;
 using RabbitMQ.Client;
 using Moq;
 using EventBusRabbitMQ;
+using EventBusRabbitMQ.Interfaces;
 
 namespace RabbitMqUnitTest
 {
@@ -22,7 +23,7 @@ namespace RabbitMqUnitTest
             _connectionFactoryMock = new Mock<IConnectionFactory>();
             mockChannel = new Mock<IModel>();
             mockConnection = new Mock<IConnection>();
-           IRabbitMQPersistentConnection mQPersistentConnection = new DefaultRabbitMQPersistentConnection(_connectionFactoryMock.Object);
+          // IRabbitMQPersistentConnection mQPersistentConnection = new DefaultRabbitMQPersistentConnection(_connectionFactoryMock.Object);
            // rabbitMQController = new RabbitMQController(mQPersistentConnection);
         }
 
