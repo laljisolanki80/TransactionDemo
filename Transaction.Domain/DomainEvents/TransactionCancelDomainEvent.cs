@@ -1,6 +1,4 @@
-﻿
-
-using MediatR;
+﻿using MediatR;
 using Transaction.Domain.AggreagatesModels.Aggregate;
 
 namespace Transaction.Domain.DomainEvents

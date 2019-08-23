@@ -1,5 +1,6 @@
 ﻿using EventBusRabbitMQ.Interfaces;
 using EventBusRabbitMQ.Services;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
