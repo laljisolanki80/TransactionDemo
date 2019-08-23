@@ -1,17 +1,14 @@
-﻿using EventBus.Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EventBusRabbitMQ.Events;
 using System.Threading.Tasks;
 
-namespace EventBus.Abstractions
+namespace EventBusRabbitMQ.EventHandlers
 {
-    //add by akshay
     public interface IIntegrationEventHandler<in TIntegrationEvent> : IIntegrationEventHandler
         where TIntegrationEvent : IntegrationEvent
     {
         Task Handle(TIntegrationEvent @event);
     }
+
     public interface IIntegrationEventHandler
     {
     }

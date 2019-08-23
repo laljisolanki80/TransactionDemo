@@ -35,7 +35,7 @@ namespace Transaction.API
             services.AddOptions();
             services.AddDbContext<TransactionDbContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-
+            services.AddMediatR(typeof(Startup));
             AddRabbitMQConfigs(services);
      
         }

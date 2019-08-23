@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using Transaction.Domain.DomainEvents;
 
 namespace Transaction.Domain.AggreagatesModels.Aggregate
 {
@@ -31,23 +30,28 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         public void StatusChangeToSettleStatus()
         {
             TransactionStatus = TransactionStatus.Success;
+            AddDomainEvent(new TransactionSettleDomainEvent(TransactionStatus));
         }
         public void StatusChangeToPartialSettleStatus()
         {
             TransactionStatus = TransactionStatus.Pending;
+            AddDomainEvent(new TransactionPartialSettleDomainEvent(TransactionStatus));
         }
         public void StatusChangeToOnHoldStatus()
         {
             TransactionStatus = TransactionStatus.Hold;
 
+            AddDomainEvent(new TransactionOnHoldDomainEvent(TransactionStatus));
         }
-        public void StatusChangeToFaieldStatus()
+        public void StatusChangeToFailedStatus()
         {
             TransactionStatus = TransactionStatus.SystemFail;
+            AddDomainEvent(new TransactionFailedDomainEvent(TransactionStatus));
         }
         public void StatusChangeToCancleStatus()
         {
             TransactionStatus = TransactionStatus.Refunded;
+            AddDomainEvent(new TransactionCancelDomainEvent(TransactionStatus));
         }
     }
 }

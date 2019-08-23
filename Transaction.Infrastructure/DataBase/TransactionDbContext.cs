@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Transaction.Infrastructure.DataBase
         public DbSet<SellerData> SellerDatas { get; set; }
         public DbSet<BuyerData> BuyerDatas { get; set; }
         public DbSet<Ledger> Ledgers { get; set; }
+      
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
@@ -31,5 +33,6 @@ namespace Transaction.Infrastructure.DataBase
 
             return true;
         }
+
     }
 }

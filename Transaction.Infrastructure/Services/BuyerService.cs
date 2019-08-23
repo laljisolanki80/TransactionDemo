@@ -56,30 +56,31 @@ namespace Transaction.Infrastructure.Service
                         {
                             if (sell.RemainingQuantity == 0)
                             {
-                                sell.TransactionStatus = TransactionStatus.Success;
+                                //sell.TransactionStatus = TransactionStatus.Success;
+                                sell.StatusChangeToSettleStatus();
                             }
                             if (sell.RemainingQuantity > 0)
                             {
-                                sell.TransactionStatus = TransactionStatus.Hold;
+                                //sell.TransactionStatus = TransactionStatus.Hold;
+                                sell.StatusChangeToOnHoldStatus();
                             }
                             if (buy.RemainingQuantity == 0)
                             {
-                                buy.TransactionStatus = TransactionStatus.Success;
+                                //buy.TransactionStatus = TransactionStatus.Success;
+                                buy.StatusChangeToSettleStatus();
                             }
                             if (buy.RemainingQuantity > 0)
                             {
-                                buy.TransactionStatus = TransactionStatus.Hold;
-                            }
-                            else
-                            {
-                                sell.TransactionStatus = TransactionStatus.OperatorFail;
-                                buy.TransactionStatus = TransactionStatus.OperatorFail;
+                                //buy.TransactionStatus = TransactionStatus.Hold;
+                                buy.StatusChangeToOnHoldStatus();
                             }
                         }
                         else
                         {
-                            sell.TransactionStatus = TransactionStatus.SystemFail;
-                            buy.TransactionStatus = TransactionStatus.SystemFail;
+                            //sell.TransactionStatus = TransactionStatus.SystemFail;
+                            sell.StatusChangeToFailedStatus();
+                            //buy.TransactionStatus = TransactionStatus.SystemFail;
+                            buy.StatusChangeToFailedStatus();
                         }
                     }
                     if (buy.RemainingQuantity < sell.RemainingQuantity)
@@ -90,19 +91,23 @@ namespace Transaction.Infrastructure.Service
                         {
                             buy.SettledQuantity += buy.RemainingQuantity;
                             buy.RemainingQuantity = 0;
-                            sell.TransactionStatus = TransactionStatus.Hold;
+                            //sell.TransactionStatus = TransactionStatus.Hold;
+                            sell.StatusChangeToOnHoldStatus();
                             if (buy.RemainingQuantity == 0)
                             {
-                                buy.TransactionStatus = TransactionStatus.Success;
+                                //buy.TransactionStatus = TransactionStatus.Success;
+                                buy.StatusChangeToSettleStatus();
                             }
                             else
                             {
-                                buy.TransactionStatus = TransactionStatus.Hold;
+                                //buy.TransactionStatus = TransactionStatus.Hold;
+                                buy.StatusChangeToOnHoldStatus();
                             }
                         }
                         else
                         {
-                            sell.TransactionStatus = TransactionStatus.Success;
+                            //sell.TransactionStatus = TransactionStatus.Success;
+                            sell.StatusChangeToFailedStatus();
                         }
                     }
                     await _sellerRepository.UpdateSellerData(sell);

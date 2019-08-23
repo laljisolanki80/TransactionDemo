@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using MediatR;
+using Transaction.Domain.AggreagatesModels.Aggregate;
 
 namespace Transaction.Domain.DomainEvents
 {
-   public class TransactionOnHoldDomainEvent
+   public class TransactionOnHoldDomainEvent: INotification
     {
+        public TransactionStatus TransactionStatus { get; }
+        public TransactionOnHoldDomainEvent(TransactionStatus transactionStatus)
+        {
+            TransactionStatus = transactionStatus;
+        }
     }
 }
