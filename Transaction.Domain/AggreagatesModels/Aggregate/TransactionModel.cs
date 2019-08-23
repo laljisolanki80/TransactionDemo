@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using Transaction.API.Application.Validation;
+using System.Text;
+using Transaction.Domain.Validation;
 
-namespace Transaction.API.Application.Models
+namespace Transaction.Domain.AggreagatesModels.Aggregate
 {
     public class TransactionModel
     {
