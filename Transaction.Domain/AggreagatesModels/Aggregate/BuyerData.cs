@@ -48,9 +48,9 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
             TransactionStatus = TransactionStatus.SystemFail;
             AddDomainEvent(new TransactionFailedDomainEvent(TransactionStatus));
         }
-        public void StatusChangeToCancleStatus()
+        public void StatusChangeToCancleStatus() //by lalji
         {
-            TransactionStatus = TransactionStatus.Refunded;
+            TransactionStatus = TransactionStatus.CancelTransaction;
             AddDomainEvent(new TransactionCancelDomainEvent(TransactionStatus));
         }
     }

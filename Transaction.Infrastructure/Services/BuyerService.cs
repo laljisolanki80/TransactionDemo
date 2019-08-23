@@ -21,6 +21,23 @@ namespace Transaction.Infrastructure.Service
             _buyerRepository = buyerRepository;
             _ledgerRepository = ledgerRepository;
         }
+
+        
+        public async Task<TransactionResponse> CancelTransaction(Guid BuyId) //add by lalji 23/08/2019
+        {
+           var buyer = await _buyerRepository.GetBuyerById(BuyId);
+
+            buyer.StatusChangeToCancleStatus();
+           await _buyerRepository.UpdateBuyerData(buyer);
+
+            TransactionResponse transactionResponse = new TransactionResponse();
+            transactionResponse.StatusCode =(int) buyer.TransactionStatus;
+            transactionResponse.StatusMessage = buyer.TransactionStatus.ToString();
+            transactionResponse.UniqId = buyer.BuyId.ToString();
+
+            return transactionResponse;
+        }
+
         //public async Task<TransactionResponse> Execute(BuyerData buy)
         public async Task<TransactionResponse> Execute(TransactionModel transactionModel)
         {

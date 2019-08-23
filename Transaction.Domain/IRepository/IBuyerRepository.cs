@@ -12,5 +12,7 @@ namespace Transaction.Domain.IRepository
         Task AddBuyerData(BuyerData buyerData);
         Task<List<BuyerData>> GetGreterBuyerPriceListFromSellerPrice(decimal SellerPrice);
         Task UpdateBuyerData(BuyerData buy);
+        
+        Task<BuyerData> GetBuyerById(Guid BuyId); //by lalji for cancel order 
     }
 }

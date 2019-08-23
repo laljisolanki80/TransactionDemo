@@ -59,6 +59,11 @@ namespace Transaction.Infrastructure.Repository
             
         }
 
+        public Task GetSellerById(Guid SellerId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateSellerData(SellerData sell)
         {
             _transactionDbContext.SellerDatas.Update(sell);

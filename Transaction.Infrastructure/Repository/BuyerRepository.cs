@@ -64,5 +64,15 @@ namespace Transaction.Infrastructure.Repository
             //await _transactionDbContext.SaveChangesAsync();
             await _transactionDbContext.SaveEntitiesAsync();
         }
+
+        public async Task<BuyerData> GetBuyerById(Guid BuyId)
+        {
+            var find = from buyRaw in _transactionDbContext.BuyerDatas
+                       where buyRaw.BuyId == BuyId && buyRaw.TransactionStatus == TransactionStatus.Hold
+                       
+                       select buyRaw;
+
+            return await Task.FromResult(find.FirstOrDefault());
+        }
     }
 }
