@@ -21,5 +21,18 @@ namespace Transaction.API.Application.Events
         {
             rabbitMQSendMessage.SendMessage(message);
         }
+        //    add by akshay
+        //private string msg;
+        public string Message
+        {
+            get { return msg; }
+            set { msg = value; }
+        }
+        private string msg;
+
+        public TransactionSettleEvent(string s)
+        {
+            msg = s;
+        }
     }
 }

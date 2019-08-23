@@ -28,14 +28,26 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
             InsertTime = DateTime.Now;
             TransactionStatus = TransactionStatus.Hold;
         }
-        //public SellerData(TransactionModel)
-        //{
-        //    SellerId = Guid.NewGuid();
-        //    SellPrice = sellPrice;
-        //    SellQuantity = sellQuantity;
-        //    RemainingQuantity = sellQuantity;
-        //    InsertTime = DateTime.Now;
-        //    TransactionStatus = TransactionStatus.Hold;
-        //}
+        public void StatusChangeToSettleStatus()
+        {
+            TransactionStatus = TransactionStatus.Success;
+        }
+        public void StatusChangeToPartialSettleStatus()
+        {
+            TransactionStatus = TransactionStatus.Pending;
+        }
+        public void StatusChangeToOnHoldStatus()
+        {
+            TransactionStatus = TransactionStatus.Hold;
+
+        }
+        public void StatusChangeToFaieldStatus()
+        {
+            TransactionStatus = TransactionStatus.SystemFail;
+        }
+        public void StatusChangeToCancleStatus()
+        {
+            TransactionStatus = TransactionStatus.Refunded;
+        }
     }
 }
