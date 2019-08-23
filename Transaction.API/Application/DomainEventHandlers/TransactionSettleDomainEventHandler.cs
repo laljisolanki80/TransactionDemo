@@ -20,7 +20,7 @@ namespace Transaction.API.Application.DomainEventHandlers
         }
         public async Task Handle(TransactionSettleDomainEvent notification, CancellationToken cancellationToken)
         {
-            _eventBus.Publish(new TransactionSettleIntegrationEvent(), "TransactionSettleDomainEvent", "","direct");            
+            _eventBus.Publish(new TransactionSettleIntegrationEvent(), "TransactionSettleIntegrationEvent", "","direct");            
         }
     }
 }
