@@ -38,7 +38,7 @@ namespace Transaction.API.Controllers
         {
             this.mQPersistentConnection = mQPersistentConnection;
 
-            this.transactionCancelEvent = new TransactionCancelEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
+            //this.transactionCancelEvent = new TransactionCancelEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
             this.transactionFailedEvent = new TransactionFailedEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
             this.transactionSettleEvent = new TransactionSettleEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
             this.transactionPartialSettleEvent = new TransactionPartialSettleEvent(new Application.Events.RabbitMQCommunication.RabbitMQSendMessage());
