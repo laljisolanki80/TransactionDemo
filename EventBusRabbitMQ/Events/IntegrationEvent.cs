@@ -1,13 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace EventBus.Events
+namespace EventBusRabbitMQ.Events
 {
-    //
     public class IntegrationEvent
     {
+        [JsonProperty]
+        public Guid Id { get; private set; }
+
+        [JsonProperty]
+        public DateTime CreationDate { get; private set; }
+
         public IntegrationEvent()
         {
             Id = Guid.NewGuid();
@@ -20,11 +23,5 @@ namespace EventBus.Events
             Id = id;
             CreationDate = createDate;
         }
-
-        [JsonProperty]
-        public Guid Id { get; private set; }
-
-        [JsonProperty]
-        public DateTime CreationDate { get; private set; }
     }
 }

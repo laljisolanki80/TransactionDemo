@@ -16,6 +16,7 @@
     <PackageReference Include="Dapper" Version="1.60.6" />
     <PackageReference Include="Dapper.Extension" Version="1.0.0.1" />
     <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNet.SignalR.Core" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
@@ -28,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
     <ProjectReference Include="..\Transaction.Domain\Transaction.Domain.csproj" />
     <ProjectReference Include="..\Transaction.Infrastructure\Transaction.Infrastructure.csproj" />
     <ProjectReference Include="C:\Users\NIDHI-0059\OneDrive\Desktop\Lalji\Project1\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />

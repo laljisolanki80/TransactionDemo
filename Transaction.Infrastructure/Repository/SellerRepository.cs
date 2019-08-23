@@ -62,7 +62,8 @@ namespace Transaction.Infrastructure.Repository
         public async Task UpdateSellerData(SellerData sell)
         {
             _transactionDbContext.SellerDatas.Update(sell);
-            await _transactionDbContext.SaveChangesAsync();
+            //await _transactionDbContext.SaveChangesAsync();
+            await _transactionDbContext.SaveEntitiesAsync();
         }
     }
 }
