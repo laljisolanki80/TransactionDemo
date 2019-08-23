@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Transaction.Domain.DomainEvents;
+using Transaction.Domain.Enum;
 
 namespace Transaction.Domain.AggreagatesModels.Aggregate
 {
@@ -16,6 +17,7 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         public decimal RemainingQuantity { get; set; }
         public DateTime InsertTime { get; set; }
         public TransactionStatus TransactionStatus { get; set; }
+        //public enErrorCode ErrorCode { get; set; }
         public SellerData()
         {
 
