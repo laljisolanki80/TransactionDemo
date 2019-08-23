@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Transaction.API.Application.Models;
 using Transaction.Domain.AggreagatesModels.Aggregate;
 using Transaction.Domain.IRepository;
 using Transaction.Domain.IService;
@@ -35,9 +34,8 @@ namespace Transaction.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            SellerData sellerData = new SellerData(transactionModel.Price, transactionModel.Quantity);
-            //TransactionResponse response = await _sellerService.Execute(transactionModel);
-            TransactionResponse response = await _sellerService.Execute(sellerData);            
+            TransactionResponse response = await _sellerService.Execute(transactionModel);
+                  
             return Ok(response);
         }
 
@@ -49,8 +47,7 @@ namespace Transaction.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BuyerData buyerData = new BuyerData(transactionModel.Price, transactionModel.Quantity);
-            TransactionResponse response=await _buyerService.Execute(buyerData);
+            TransactionResponse response=await _buyerService.Execute(transactionModel);
             return Ok(response);
         }
         //[HttpPost]

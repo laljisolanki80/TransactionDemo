@@ -8,6 +8,7 @@ namespace Transaction.Domain.IService
 {
     public interface IBuyerService
     {
-        Task<TransactionResponse> Execute(BuyerData buyerData);
+        //Task<TransactionResponse> Execute(BuyerData buyerData);
+        Task<TransactionResponse> Execute(TransactionModel transactionModel);
     }
 }

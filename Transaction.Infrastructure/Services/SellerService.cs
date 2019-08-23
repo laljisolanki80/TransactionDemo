@@ -21,9 +21,10 @@ namespace Transaction.Infrastructure.Service
             _buyerRepository = buyerRepository;
             _ledgerRepository = ledgerRepository;
         }
-        public async Task<TransactionResponse> Execute(SellerData sell)
-       //public async Task<TransactionResponse> Execute(TransactionModel transactionModel)
+        //public async Task<TransactionResponse> Execute(SellerData sell)
+       public async Task<TransactionResponse> Execute(TransactionModel transactionModel)
         {
+            SellerData sell = new SellerData(transactionModel.Price, transactionModel.Quantity);
 
             Console.WriteLine(sell.SellPrice + " : " + sell.SellQuantity + " : " + sell.InsertTime);
             Console.WriteLine("------------------------------------------------------");
