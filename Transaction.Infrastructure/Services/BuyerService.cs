@@ -23,9 +23,9 @@ namespace Transaction.Infrastructure.Service
         }
 
         
-        public async Task<TransactionResponse> CancelTransaction(Guid BuyId) //add by lalji 23/08/2019
+        public async Task<TransactionResponse> CancelTransaction(TransactionCancelModel transactionCancelModel) //add by lalji 23/08/2019
         {
-           var buyer = await _buyerRepository.GetBuyerById(BuyId);
+           var buyer = await _buyerRepository.GetBuyerById(transactionCancelModel);
 
             buyer.StatusChangeToCancleStatus();
            await _buyerRepository.UpdateBuyerData(buyer);

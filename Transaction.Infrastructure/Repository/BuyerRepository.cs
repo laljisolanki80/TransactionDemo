@@ -65,10 +65,10 @@ namespace Transaction.Infrastructure.Repository
             await _transactionDbContext.SaveEntitiesAsync();
         }
 
-        public async Task<BuyerData> GetBuyerById(Guid BuyId)
+        public async Task<BuyerData> GetBuyerById(TransactionCancelModel transactionCancelModel)
         {
             var find = from buyRaw in _transactionDbContext.BuyerDatas
-                       where buyRaw.BuyId == BuyId && buyRaw.TransactionStatus == TransactionStatus.Hold
+                       where buyRaw.BuyId == Guid.Parse(transactionCancelModel.BuyId) && buyRaw.TransactionStatus == TransactionStatus.Hold
                        
                        select buyRaw;
 

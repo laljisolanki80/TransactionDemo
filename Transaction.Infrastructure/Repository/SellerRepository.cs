@@ -64,11 +64,22 @@ namespace Transaction.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
+        
         public async Task UpdateSellerData(SellerData sell)
         {
             _transactionDbContext.SellerDatas.Update(sell);
             //await _transactionDbContext.SaveChangesAsync();
             await _transactionDbContext.SaveEntitiesAsync();
+        }
+
+       public async Task<SellerData> GetSellerById(CancelSellerTransaction cancelSellerTransaction)
+        {
+            var find = from sellRaw in _transactionDbContext.SellerDatas
+                       where sellRaw.SellerId == Guid.Parse(cancelSellerTransaction.SellerId) && sellRaw.TransactionStatus == TransactionStatus.Hold
+
+                       select sellRaw;
+
+            return await Task.FromResult(find.FirstOrDefault());
         }
     }
 }

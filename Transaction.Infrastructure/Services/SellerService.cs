@@ -22,8 +22,25 @@ namespace Transaction.Infrastructure.Service
             _buyerRepository = buyerRepository;
             _ledgerRepository = ledgerRepository;
         }
+
+        public async Task<TransactionResponse> CancelTransaction(CancelSellerTransaction cancelSellerTransaction)
+        {
+            //var seller = await _sellerRepository.GetSellerById(cancelSellerTransaction);
+            var seller = await _sellerRepository.GetSellerById(cancelSellerTransaction);
+
+            seller.StatusChangeToCancleStatus();
+            await _sellerRepository.UpdateSellerData(seller);
+
+            TransactionResponse transactionResponse = new TransactionResponse();
+            transactionResponse.StatusCode = (int)seller.TransactionStatus;
+            transactionResponse.StatusMessage = seller.TransactionStatus.ToString();
+            transactionResponse.UniqId = seller.BuyId.ToString();
+
+            return transactionResponse;
+        }
+
         //public async Task<TransactionResponse> Execute(SellerData sell)
-       public async Task<TransactionResponse> Execute(TransactionModel transactionModel)
+        public async Task<TransactionResponse> Execute(TransactionModel transactionModel)
         {
             SellerData sell = new SellerData(transactionModel.Price, transactionModel.Quantity);
 
