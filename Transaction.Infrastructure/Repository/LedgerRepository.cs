@@ -22,6 +22,7 @@ namespace Transaction.Infrastructure.Repository
             ledger.DisplayId = Guid.NewGuid().ToString();
             ledger.BuyerPrice = (double)buy.BuyPrice;
             ledger.SellerId = sell.SellerId.ToString();
+            ledger.SellerPrice = (double)sell.SellPrice;
             ledger.SellerQuantity = (long)Quantities;
             ledger.ProcessTime = DateTime.Now;
             ledger.TransactionStatus = TransactionStatus.Success;
