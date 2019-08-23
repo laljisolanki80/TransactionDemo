@@ -113,7 +113,7 @@ namespace Transaction.Infrastructure.Service
                 transactionResponse.UniqId = buy.BuyId.ToString();
                 transactionResponse.StatusCode = (int)buy.TransactionStatus;
                 transactionResponse.StatusMessage = buy.TransactionStatus.ToString();
-
+                
                 return transactionResponse;
             }
             catch(Exception ex)

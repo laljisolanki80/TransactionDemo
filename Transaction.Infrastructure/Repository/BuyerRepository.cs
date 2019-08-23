@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.Aggregate;
 using Transaction.Domain.IRepository;
+using Transaction.Domain.SeedWork;
 using Transaction.Infrastructure.DataBase;
 
 namespace Transaction.Infrastructure.Repository
@@ -13,10 +14,19 @@ namespace Transaction.Infrastructure.Repository
     public class BuyerRepository : IBuyerRepository
     {
         public TransactionDbContext _transactionDbContext;
+        public IUnitOfWork UnitOfWork
+        {
+            get
+            {
+                return _transactionDbContext;
+            }
+        }
         public BuyerRepository(TransactionDbContext transactionDbContext)
         {
             _transactionDbContext = transactionDbContext;
         }
+
+       
         public async Task AddBuyerData(BuyerData buyerData)
         {
             _transactionDbContext.BuyerDatas.Add(buyerData);

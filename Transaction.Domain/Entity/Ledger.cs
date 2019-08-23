@@ -7,6 +7,7 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
 {
     public class Ledger:Entity
     {
+        public long Id { get; set; }
         [StringLength(50)]
         public string DisplayId { get; set; }
         [StringLength(50)]
