@@ -22,7 +22,7 @@ namespace Transaction.API.Application.Events
 
         public void SendMessage()
         {
-            rabbitMQSendMessage.SendMessage(message);
+            //rabbitMQSendMessage.SendMessage(message);
         }
     }
 }
