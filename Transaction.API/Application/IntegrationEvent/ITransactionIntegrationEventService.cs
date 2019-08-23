@@ -8,6 +8,6 @@ namespace Transaction.API.Application.IntegrationEvent
     public interface ITransactionIntegrationEventService
     {
         Task PublishEventsThroughEventBusAsync();
-        Task AddAndSaveEventAsync(IntegrationEvent evt);
+        //Task AddAndSaveEventAsync(IntegrationEvent evt);
     }
 }
