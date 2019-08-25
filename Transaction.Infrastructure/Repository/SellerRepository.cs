@@ -59,11 +59,6 @@ namespace Transaction.Infrastructure.Repository
             
         }
 
-        public Task GetSellerById(Guid SellerId)
-        {
-            throw new NotImplementedException();
-        }
-
         
         public async Task UpdateSellerData(SellerData sell)
         {
@@ -81,5 +76,6 @@ namespace Transaction.Infrastructure.Repository
 
             return await Task.FromResult(find.FirstOrDefault());
         }
+
     }
 }
