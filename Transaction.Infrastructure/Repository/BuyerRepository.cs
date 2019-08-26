@@ -45,14 +45,14 @@ namespace Transaction.Infrastructure.Repository
                 if (compare != null)
                 {
                     var BuyerList = compare.ToList();
-                    if (BuyerList != null)
-                    {
-                        return await Task.FromResult(BuyerList);
-                    }
-                    else
-                    {
+                //    if (BuyerList != null)
+                //    {
+                     return await Task.FromResult(BuyerList);
+                //    }
+                //    else
+                //    {
                         
-                    }
+                //    }
                 }
                 else
                 {

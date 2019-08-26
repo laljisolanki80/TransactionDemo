@@ -74,7 +74,7 @@ namespace Transaction.API.Controllers
                 return BadRequest(ModelState);
             }
             TransactionResponse response = await _sellerService.CancelTransaction(cancelSellerTransaction);
-            return Ok();
+            return Ok(response);
         }
     }
 }

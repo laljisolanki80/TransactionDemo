@@ -34,7 +34,7 @@ namespace Transaction.Infrastructure.Service
             TransactionResponse transactionResponse = new TransactionResponse();
             transactionResponse.StatusCode = (int)seller.TransactionStatus;
             transactionResponse.StatusMessage = seller.TransactionStatus.ToString();
-            transactionResponse.UniqId = seller.BuyId.ToString();
+            transactionResponse.UniqId = seller.SellerId.ToString();//replace buyerId to SellerId by lalji
 
             return transactionResponse;
         }
