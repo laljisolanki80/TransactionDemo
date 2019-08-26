@@ -38,21 +38,14 @@ namespace Transaction.Infrastructure.Repository
             try
             {
                 var compare = from buyRaw in _transactionDbContext.BuyerDatas
-                              where buyRaw.BuyPrice == SellerPrice
+                              where buyRaw.BuyPrice >= SellerPrice
                               orderby buyRaw.InsertTime
                               select buyRaw;
 
                 if (compare != null)
                 {
-                    var BuyerList = compare.ToList();
-                    if (BuyerList != null)
-                    {
-                        return await Task.FromResult(BuyerList);
-                    }
-                    else
-                    {
-                        return 
-                    }
+                    var BuyerList = compare.ToList();                 
+                    return await Task.FromResult(BuyerList);                 
                 }
                 else
                 {

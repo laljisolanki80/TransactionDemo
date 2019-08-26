@@ -79,7 +79,7 @@ namespace Transaction.Infrastructure.Service
                             if (sell.RemainingQuantity > 0)
                             {
                                 //sell.TransactionStatus = TransactionStatus.Hold;
-                                sell.StatusChangeToOnHoldStatus();
+                                sell.StatusChangeToPartialSettleStatus();
                             }
                             if (buy.RemainingQuantity == 0)
                             {
@@ -89,7 +89,7 @@ namespace Transaction.Infrastructure.Service
                             if (buy.RemainingQuantity > 0)
                             {
                                 //buy.TransactionStatus = TransactionStatus.Hold;
-                                buy.StatusChangeToOnHoldStatus();
+                                buy.StatusChangeToPartialSettleStatus();
                             }
                         }
                         else
@@ -120,6 +120,10 @@ namespace Transaction.Infrastructure.Service
                                 //buy.TransactionStatus = TransactionStatus.Hold;
                                 buy.StatusChangeToOnHoldStatus();
                             }
+                        }
+                        if (buy.BuyPrice > sell.SellPrice)
+                        {
+                            buy.StatusChangeToOnHoldStatus();
                         }
                         else
                         {
