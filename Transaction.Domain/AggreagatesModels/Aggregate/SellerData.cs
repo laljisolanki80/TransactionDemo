@@ -38,12 +38,12 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         }
         public void StatusChangeToPartialSettleStatus()
         {
-            TransactionStatus = TransactionStatus.Hold;
+            TransactionStatus = TransactionStatus.PartialSettle;
             AddDomainEvent(new TransactionPartialSettleDomainEvent(TransactionStatus));
         }
         public void StatusChangeToOnHoldStatus()
         {
-            TransactionStatus = TransactionStatus.Pending;
+            TransactionStatus = TransactionStatus.Hold;
 
             AddDomainEvent(new TransactionOnHoldDomainEvent(TransactionStatus));
         }
