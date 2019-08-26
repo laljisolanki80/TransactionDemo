@@ -11,9 +11,6 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         OperatorFail = 2,
         SystemFail = 3,
         PartialSettle = 4,
-        Refunded = 5,
-        CancelTransaction=6
-
-
+        Refunded = 5
     }
 }
