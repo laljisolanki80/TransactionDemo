@@ -38,7 +38,7 @@ namespace Transaction.Infrastructure.Repository
             try
             {
                 var compare = from buyRaw in _transactionDbContext.BuyerDatas
-                              where buyRaw.BuyPrice >= SellerPrice
+                              where buyRaw.BuyPrice >= SellerPrice && buyRaw.RemainingQuantity > 0
                               orderby buyRaw.InsertTime
                               select buyRaw;
 
