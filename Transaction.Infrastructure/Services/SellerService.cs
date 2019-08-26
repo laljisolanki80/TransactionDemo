@@ -33,7 +33,7 @@ namespace Transaction.Infrastructure.Service
             {
                 await _sellerRepository.AddSellerData(sell);
 
-                List<BuyerData> BuyerList = await _buyerRepository.GetGreterBuyerPriceListFromSellerPrice(sell.SellPrice);
+                List<BuyerData> BuyerList = await _buyerRepository.GetGreaterBuyerPriceListFromSellerPrice(sell.SellPrice);
                 foreach (var buy in BuyerList)
                 {
                     decimal Quantities = 0.0m;
@@ -122,10 +122,7 @@ namespace Transaction.Infrastructure.Service
             }
             catch(Exception)
             {
-                return (new TransactionResponse { ErrorCode = enErrorCode.InternalError });
-                //TransactionResponse transactionResponse = new TransactionResponse();
-                //transactionResponse.ErrorCode = enErrorCode.TryAgain;
-                //return transactionResponse;
+                return (new TransactionResponse { ErrorCode = enErrorCode.InternalError });                
             }
             
         }

@@ -48,7 +48,7 @@ namespace Transaction.Infrastructure.Service
             try
             {
                 await _buyerRepository.AddBuyerData(buy);
-                List<SellerData> SellerList = await _sellerRepository.GetGreterSellerPriceListFromBuyerPrice(buy.BuyPrice);
+                List<SellerData> SellerList = await _sellerRepository.GetGreaterSellerPriceListFromBuyerPrice(buy.BuyPrice);
 
 
                 foreach (var sell in SellerList)

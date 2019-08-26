@@ -33,7 +33,7 @@ namespace Transaction.Infrastructure.Repository
             await _transactionDbContext.SaveChangesAsync();
         }
 
-        public async Task<List<BuyerData>> GetGreterBuyerPriceListFromSellerPrice(decimal SellerPrice)
+        public async Task<List<BuyerData>> GetGreaterBuyerPriceListFromSellerPrice(decimal SellerPrice)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Transaction.Infrastructure.Repository
                     }
                     else
                     {
-                        
+                        return 
                     }
                 }
                 else
