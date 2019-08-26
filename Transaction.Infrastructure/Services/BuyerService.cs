@@ -132,9 +132,16 @@ namespace Transaction.Infrastructure.Service
                             sell.StatusChangeToFailedStatus();
                         }
                     }
-                    await _sellerRepository.UpdateSellerData(sell);
+                    await _sellerRepository.UpdateSellerData(sell);                    
                     await _buyerRepository.UpdateBuyerData(buy);
-                    await _ledgerRepository.AddLedgerData(sell, buy, Quantities);
+                    if (Quantities != 0)
+                    {
+                        await _ledgerRepository.AddLedgerData(sell, buy, Quantities);
+                    }
+                    else
+                    {
+                        buy.StatusChangeToOnHoldStatus();
+                    }
                 }
                 TransactionResponse transactionResponse = new TransactionResponse();
                 transactionResponse.UniqId = buy.BuyId.ToString();

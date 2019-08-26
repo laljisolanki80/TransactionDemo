@@ -53,6 +53,7 @@ namespace Transaction.Infrastructure.Service
                 List<BuyerData> BuyerList = await _buyerRepository.GetGreaterBuyerPriceListFromSellerPrice(sell.SellPrice);
                 foreach (var buy in BuyerList)
                 {
+                    //var buy = BuyerList;
                     decimal Quantities = 0.0m;
                     if (buy.RemainingQuantity >= sell.RemainingQuantity)
                     {
@@ -121,19 +122,36 @@ namespace Transaction.Infrastructure.Service
                                 sell.StatusChangeToOnHoldStatus();
                             }
                         }
-                        if(buy.BuyPrice<sell.SellPrice)
-                        {
-                            sell.StatusChangeToOnHoldStatus();
-                        }
-                        else
-                        {
-                            //buy.TransactionStatus = TransactionStatus.Success;
-                            buy.StatusChangeToFailedStatus();
-                        }
+                        //if(buy.BuyPrice<sell.SellPrice)
+                        //{
+                        //    sell.StatusChangeToOnHoldStatus();
+                        //}
+                        //else
+                        //{
+                        //    //buy.TransactionStatus = TransactionStatus.Success;
+                        //    buy.StatusChangeToFailedStatus();
+                        //}
+                        
                     }
                     await _sellerRepository.UpdateSellerData(sell);
                     await _buyerRepository.UpdateBuyerData(buy);
-                    await _ledgerRepository.AddLedgerData(sell, buy, Quantities);
+                    if (Quantities != 0)
+                    {
+                        await _ledgerRepository.AddLedgerData(sell, buy, Quantities);
+                    }
+                    else
+                    {
+                        sell.StatusChangeToOnHoldStatus();
+                    }
+                    if (Quantities == sell.SellQuantity)
+                    {
+                        //sell.SellQuantity -= Quantities;
+                        break;
+                    }
+                    else
+                    {
+                        sell.SellQuantity -= Quantities;
+                    }
                 }
                 TransactionResponse transactionResponse = new TransactionResponse();
                 transactionResponse.UniqId = sell.SellerId.ToString();
