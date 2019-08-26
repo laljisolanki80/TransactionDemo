@@ -13,6 +13,6 @@ namespace Transaction.Domain.IRepository
         Task<List<BuyerData>> GetGreaterBuyerPriceListFromSellerPrice(decimal SellerPrice);
         Task UpdateBuyerData(BuyerData buy);
         
-        Task<BuyerData> GetBuyerById(Guid BuyId); //by lalji for cancel order 
+        Task<BuyerData> GetBuyerById(TransactionCancelModel transactionCancelModel); //by lalji for cancel order 
     }
 }

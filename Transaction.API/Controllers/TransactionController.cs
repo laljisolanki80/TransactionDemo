@@ -52,28 +52,28 @@ namespace Transaction.API.Controllers
 
         [HttpPost]
         [Route("BuyerCancel")]
-        public async Task<IActionResult> BuyerCancelTransaction([FromBody] Guid BuyId)
+        public async Task<IActionResult> BuyerCancelTransaction([FromBody]TransactionCancelModel transactionCancelModel)
         {
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            TransactionResponse response = await _buyerService.CancelTransaction(BuyId);
+            TransactionResponse response = await _buyerService.CancelTransaction(transactionCancelModel);
 
             return Ok(response);
         }
 
         [HttpPost]
         [Route("SellerCancel")]
-        public async Task<IActionResult> SellerCancelTransaction([FromBody] Guid SellerId)
+        public async Task<IActionResult> SellerCancelTransaction([FromBody] CancelSellerTransaction cancelSellerTransaction)
         {
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-           // TransactionResponse response = await 
+            TransactionResponse response = await _sellerService.CancelTransaction(cancelSellerTransaction);
             return Ok();
         }
     }
