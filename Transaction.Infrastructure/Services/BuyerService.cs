@@ -27,13 +27,14 @@ namespace Transaction.Infrastructure.Service
         {
            var buyer = await _buyerRepository.GetBuyerById(transactionCancelModel);
 
+        
             buyer.StatusChangeToCancleStatus();
-           await _buyerRepository.UpdateBuyerData(buyer);
+
+            await _buyerRepository.UpdateBuyerData(buyer);
 
             TransactionResponse transactionResponse = new TransactionResponse();
             transactionResponse.StatusCode =(int) buyer.TransactionStatus;
-            transactionResponse.StatusMessage = buyer.TransactionStatus.ToString();
-            transactionResponse.UniqId = buyer.BuyId.ToString();
+            transactionResponse.StatusMessage = "transaction cancelled successfully";
 
             return transactionResponse;
         }

@@ -66,14 +66,14 @@ namespace Transaction.API.Controllers
 
         [HttpPost]
         [Route("SellerCancel")]
-        public async Task<IActionResult> SellerCancelTransaction([FromBody] CancelSellerTransaction cancelSellerTransaction)
+        public async Task<IActionResult> SellerCancelTransaction([FromBody] TransactionCancelModel transactionCancelModel)
         {
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            TransactionResponse response = await _sellerService.CancelTransaction(cancelSellerTransaction);
+            TransactionResponse response = await _sellerService.CancelTransaction(transactionCancelModel);
             return Ok(response);
         }
     }

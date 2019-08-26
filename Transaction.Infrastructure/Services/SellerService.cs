@@ -23,10 +23,10 @@ namespace Transaction.Infrastructure.Service
             _ledgerRepository = ledgerRepository;
         }
 
-        public async Task<TransactionResponse> CancelTransaction(CancelSellerTransaction cancelSellerTransaction)
+        public async Task<TransactionResponse> CancelTransaction(TransactionCancelModel transactionCancelModel)
         {
             //var seller = await _sellerRepository.GetSellerById(cancelSellerTransaction);
-            var seller = await _sellerRepository.GetSellerById(cancelSellerTransaction);
+            var seller = await _sellerRepository.GetSellerById(transactionCancelModel);
 
             seller.StatusChangeToCancleStatus();
             await _sellerRepository.UpdateSellerData(seller);

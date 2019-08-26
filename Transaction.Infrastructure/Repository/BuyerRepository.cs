@@ -67,10 +67,14 @@ namespace Transaction.Infrastructure.Repository
         public async Task<BuyerData> GetBuyerById(TransactionCancelModel transactionCancelModel)
         {
             var find = from buyRaw in _transactionDbContext.BuyerDatas
-                       where buyRaw.BuyId == Guid.Parse(transactionCancelModel.BuyId) && buyRaw.TransactionStatus == TransactionStatus.Hold
+                       where buyRaw.BuyId == Guid.Parse(transactionCancelModel.Id) && buyRaw.TransactionStatus == TransactionStatus.Hold
                        
                        select buyRaw;
+            if (find == null)
+            {
+                return null;
 
+            }
             return await Task.FromResult(find.FirstOrDefault());
         }
     }
