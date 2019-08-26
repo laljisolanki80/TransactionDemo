@@ -59,7 +59,7 @@ namespace Transaction.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            TransactionResponse response = await _buyerService.CancelTransaction(transactionCancelModel);
+            BizResponse response = await _buyerService.CancelTransaction(transactionCancelModel);
 
             return Ok(response);
         }
@@ -73,7 +73,7 @@ namespace Transaction.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            TransactionResponse response = await _sellerService.CancelTransaction(transactionCancelModel);
+            BizResponse response = await _sellerService.CancelTransaction(transactionCancelModel);
             return Ok(response);
         }
     }

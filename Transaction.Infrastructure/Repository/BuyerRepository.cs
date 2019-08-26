@@ -70,11 +70,7 @@ namespace Transaction.Infrastructure.Repository
                        where buyRaw.BuyId == Guid.Parse(transactionCancelModel.Id) && buyRaw.TransactionStatus == TransactionStatus.Hold
                        
                        select buyRaw;
-            if (find == null)
-            {
-                return null;
-
-            }
+            
             return await Task.FromResult(find.FirstOrDefault());
         }
     }

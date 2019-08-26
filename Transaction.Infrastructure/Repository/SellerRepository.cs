@@ -76,6 +76,5 @@ namespace Transaction.Infrastructure.Repository
 
             return await Task.FromResult(find.FirstOrDefault());
         }
-
     }
 }

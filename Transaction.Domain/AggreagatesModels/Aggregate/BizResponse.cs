@@ -10,5 +10,6 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         public enErrorCode ErrorCode { get; set; }
         public int StatusCode { get; set; }
         public string StatusMessage { get; set; }
+        
     }
 }

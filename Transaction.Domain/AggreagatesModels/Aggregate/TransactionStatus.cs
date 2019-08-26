@@ -9,11 +9,9 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         Pending = 0,
         Success = 1,
         OperatorFail = 2,
-        SystemFail = 3,
+        Cancel = 3,
         Hold = 4,
-        Refunded = 5,
-        CancelTransaction=6
-
+        Refunded = 5
 
     }
 }

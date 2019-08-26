@@ -45,13 +45,17 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         }
         public void StatusChangeToFailedStatus()
         {
-            TransactionStatus = TransactionStatus.SystemFail;
+            TransactionStatus = TransactionStatus.OperatorFail;
             AddDomainEvent(new TransactionFailedDomainEvent(TransactionStatus));
         }
         public void StatusChangeToCancleStatus() //by lalji
         {
-            TransactionStatus = TransactionStatus.CancelTransaction;
+            TransactionStatus = TransactionStatus.Cancel;
             AddDomainEvent(new TransactionCancelDomainEvent(TransactionStatus));
+        }
+        public void InsertDateAndTime()
+        {
+            InsertTime = DateTime.Now;
         }
     }
 }
