@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.Aggregate;
+using Transaction.Domain.Enum;
 using Transaction.Domain.IRepository;
 using Transaction.Domain.IService;
 
@@ -139,16 +140,7 @@ namespace Transaction.Infrastructure.Service
                                 //buy.TransactionStatus = TransactionStatus.Hold;
                                 buy.StatusChangeToOnHoldStatus();
                             }
-                        }
-                        if (buy.BuyPrice > sell.SellPrice)
-                        {
-                            buy.StatusChangeToOnHoldStatus();
-                        }
-                        else
-                        {
-                            //sell.TransactionStatus = TransactionStatus.Success;
-                            sell.StatusChangeToFailedStatus();
-                        }
+                        }                        
                     }
                     await _sellerRepository.UpdateSellerData(sell);                    
                     await _buyerRepository.UpdateBuyerData(buy);
@@ -160,6 +152,10 @@ namespace Transaction.Infrastructure.Service
                     {
                         buy.StatusChangeToOnHoldStatus();
                     }
+                    if(Quantities==0)
+                    {
+                        break;
+                    }
                 }
                 TransactionResponse transactionResponse = new TransactionResponse();
                 transactionResponse.UniqId = buy.BuyId.ToString();
@@ -168,13 +164,13 @@ namespace Transaction.Infrastructure.Service
                 
                 return transactionResponse;
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                return null;
+                return (new TransactionResponse { ErrorCode = enErrorCode.InternalError, StatusCode = (int)TransactionStatus.SystemFail, StatusMessage = TransactionStatus.SystemFail.ToString() });
             }
-            
 
-            
+
+
         }
     }
 }
