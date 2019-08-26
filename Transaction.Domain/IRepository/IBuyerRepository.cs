@@ -10,7 +10,7 @@ namespace Transaction.Domain.IRepository
     public interface IBuyerRepository:IRepository<BuyerData>
     {
         Task AddBuyerData(BuyerData buyerData);
-        Task<List<BuyerData>> GetGreterBuyerPriceListFromSellerPrice(decimal SellerPrice);
+        Task<List<BuyerData>> GetGreaterBuyerPriceListFromSellerPrice(decimal SellerPrice);
         Task UpdateBuyerData(BuyerData buy);
         
         Task<BuyerData> GetBuyerById(TransactionCancelModel transactionCancelModel); //by lalji for cancel order 

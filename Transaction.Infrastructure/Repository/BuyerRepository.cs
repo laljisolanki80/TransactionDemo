@@ -33,26 +33,19 @@ namespace Transaction.Infrastructure.Repository
             await _transactionDbContext.SaveChangesAsync();
         }
 
-        public async Task<List<BuyerData>> GetGreterBuyerPriceListFromSellerPrice(decimal SellerPrice)
+        public async Task<List<BuyerData>> GetGreaterBuyerPriceListFromSellerPrice(decimal SellerPrice)
         {
             try
             {
                 var compare = from buyRaw in _transactionDbContext.BuyerDatas
-                              where buyRaw.BuyPrice == SellerPrice
+                              where buyRaw.BuyPrice >= SellerPrice
                               orderby buyRaw.InsertTime
                               select buyRaw;
 
                 if (compare != null)
                 {
-                    var BuyerList = compare.ToList();
-                //    if (BuyerList != null)
-                //    {
-                     return await Task.FromResult(BuyerList);
-                //    }
-                //    else
-                //    {
-                        
-                //    }
+                    var BuyerList = compare.ToList();                 
+                    return await Task.FromResult(BuyerList);                 
                 }
                 else
                 {

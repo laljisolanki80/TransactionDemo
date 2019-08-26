@@ -33,7 +33,7 @@ namespace Transaction.Infrastructure.Repository
             return await Task.FromResult(Buyerlist);
         }
 
-        public async Task<List<SellerData>> GetGreterSellerPriceListFromBuyerPrice(decimal BuyerPrice)
+        public async Task<List<SellerData>> GetGreaterSellerPriceListFromBuyerPrice(decimal BuyerPrice)
         {
             try
             {
