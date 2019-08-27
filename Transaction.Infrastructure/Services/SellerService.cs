@@ -60,10 +60,10 @@ namespace Transaction.Infrastructure.Service
                     {
                         Quantities = sell.RemainingQuantity;
                     }
-                    sell.RemainingQuantity = sell.RemainingQuantity - Quantities;
-                    sell.SettledQuantity = sell.SettledQuantity + Quantities;
-                    buy.RemainingQuantity = buy.RemainingQuantity - Quantities;
-                    buy.SettledQuantity = buy.SettledQuantity + Quantities;
+                    sell.RemainingQuantity -=Quantities;
+                    sell.SettledQuantity +=Quantities;
+                    buy.RemainingQuantity -= Quantities;
+                    buy.SettledQuantity +=Quantities;
 
                     if(sell.RemainingQuantity==0)
                     {
