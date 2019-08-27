@@ -23,20 +23,39 @@ namespace Transaction.Infrastructure.Service
             _ledgerRepository = ledgerRepository;
         }
 
-        
-        public async Task<TransactionResponse> CancelTransaction(TransactionCancelModel transactionCancelModel) //add by lalji 23/08/2019
+
+        public async Task<BizResponse> CancelTransaction(TransactionCancelModel transactionCancelModel) //add by lalji 23/08/2019
         {
-           var buyer = await _buyerRepository.GetBuyerById(transactionCancelModel);
+            var buyer = await _buyerRepository.GetBuyerById(transactionCancelModel);
+            try
+            {
+                if (buyer == null)
+                {
+                    BizResponse bizResponse = new BizResponse();
+                    bizResponse.ErrorCode = Domain.Enum.enErrorCode.TransactionNotFoundError;
+                    bizResponse.StatusCode = (int)TransactionStatus.OperatorFail;
+                    bizResponse.StatusMessage = "transaction not found";
 
-            buyer.StatusChangeToCancleStatus();
-           await _buyerRepository.UpdateBuyerData(buyer);
+                    return bizResponse;
+                }
+                else
+                {
+                    buyer.StatusChangeToCancleStatus();
+                    buyer.InsertDateAndTime();
+                    await _buyerRepository.UpdateBuyerData(buyer);
 
-            TransactionResponse transactionResponse = new TransactionResponse();
-            transactionResponse.StatusCode =(int) buyer.TransactionStatus;
-            transactionResponse.StatusMessage = buyer.TransactionStatus.ToString();
-            transactionResponse.UniqId = buyer.BuyId.ToString();
+                    BizResponse bizResponse = new BizResponse();
+                    bizResponse.ErrorCode = Domain.Enum.enErrorCode.Success;
+                    bizResponse.StatusCode = (int)TransactionStatus.Success;
+                    bizResponse.StatusMessage = "Transaction cancelled successfully";
+                    return bizResponse;
+                }
 
-            return transactionResponse;
+            }
+            catch (Exception)
+            {
+                return (new BizResponse { ErrorCode = Domain.Enum.enErrorCode.InternalError, StatusMessage = "Internel error", StatusCode = (int)TransactionStatus.OperatorFail });
+            }
         }
 
         public async Task<TransactionResponse> Execute(TransactionModel transactionModel)

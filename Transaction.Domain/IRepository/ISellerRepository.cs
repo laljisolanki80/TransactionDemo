@@ -12,7 +12,7 @@ namespace Transaction.Domain.IRepository
         Task<List<SellerData>> GetGreaterSellerPriceListFromBuyerPrice(decimal BuyerPrice);
         Task UpdateSellerData(SellerData sell);
 
-        Task<SellerData> GetSellerById(CancelSellerTransaction cancelSellerTransaction);//for cancel transaction by lalji 23/08/2018
+        Task<SellerData> GetSellerById(TransactionCancelModel transactionCancelModel);//for cancel transaction by lalji 23/08/2018
 
     }
 }

@@ -67,15 +67,14 @@ namespace Transaction.Infrastructure.Repository
             await _transactionDbContext.SaveEntitiesAsync();
         }
 
-       public async Task<SellerData> GetSellerById(CancelSellerTransaction cancelSellerTransaction)
+       public async Task<SellerData> GetSellerById(TransactionCancelModel transactionCancelModel)
         {
             var find = from sellRaw in _transactionDbContext.SellerDatas
-                       where sellRaw.SellerId == Guid.Parse(cancelSellerTransaction.SellerId) && sellRaw.TransactionStatus == TransactionStatus.Hold
+                       where sellRaw.SellerId == Guid.Parse(transactionCancelModel.Id) && sellRaw.TransactionStatus == TransactionStatus.Hold
 
                        select sellRaw;
 
             return await Task.FromResult(find.FirstOrDefault());
         }
-
     }
 }

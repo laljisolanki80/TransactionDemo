@@ -59,21 +59,21 @@ namespace Transaction.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            TransactionResponse response = await _buyerService.CancelTransaction(transactionCancelModel);
+            BizResponse response = await _buyerService.CancelTransaction(transactionCancelModel);
 
             return Ok(response);
         }
 
         [HttpPost]
         [Route("SellerCancel")]
-        public async Task<IActionResult> SellerCancelTransaction([FromBody] CancelSellerTransaction cancelSellerTransaction)
+        public async Task<IActionResult> SellerCancelTransaction([FromBody] TransactionCancelModel transactionCancelModel)
         {
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            TransactionResponse response = await _sellerService.CancelTransaction(cancelSellerTransaction);
+            BizResponse response = await _sellerService.CancelTransaction(transactionCancelModel);
             return Ok(response);
         }
     }

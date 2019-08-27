@@ -11,6 +11,6 @@ namespace Transaction.Domain.IService
         //Task<TransactionResponse> Execute(BuyerData buyerData);
         Task<TransactionResponse> Execute(TransactionModel transactionModel);
 
-        Task<TransactionResponse> CancelTransaction(TransactionCancelModel transactionCancelModel);
+        Task<BizResponse> CancelTransaction(TransactionCancelModel transactionCancelModel);
     }
 }
