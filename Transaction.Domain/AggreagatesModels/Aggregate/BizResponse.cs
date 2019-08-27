@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Transaction.Domain.Enum;
+﻿using Transaction.Domain.Enum;
 
 namespace Transaction.Domain.AggreagatesModels.Aggregate
 {

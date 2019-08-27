@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.Aggregate;
 using Transaction.Domain.Enum;
@@ -90,7 +89,7 @@ namespace Transaction.Infrastructure.Service
                     }
                     else
                     {
-                        sell.StatusChangeToPartialSettleStatus();
+                        sell.StatusChangeToOnHoldStatus();
                     }
                     if (buy.RemainingQuantity == 0)
                     {
@@ -98,7 +97,7 @@ namespace Transaction.Infrastructure.Service
                     }
                     else
                     {
-                        buy.StatusChangeToPartialSettleStatus();
+                        buy.StatusChangeToOnHoldStatus();
                     }
                     
                     await _sellerRepository.UpdateSellerData(sell);                    
@@ -119,7 +118,7 @@ namespace Transaction.Infrastructure.Service
             }
             catch (Exception)
             {
-                return (new TransactionResponse { ErrorCode = enErrorCode.InternalError, StatusCode = (int)TransactionStatus.SystemFail, StatusMessage = TransactionStatus.SystemFail.ToString() });
+                return (new TransactionResponse { ErrorCode = enErrorCode.InternalError, StatusCode = (int)TransactionStatus.Validationfail, StatusMessage = TransactionStatus.Validationfail.ToString() });
             }
         }
     }

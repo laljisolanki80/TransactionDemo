@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.Aggregate;
 using Transaction.Domain.IRepository;
@@ -38,7 +36,7 @@ namespace Transaction.Infrastructure.Repository
             try
             {
                 var compare = from buyRaw in _transactionDbContext.BuyerDatas
-                              where buyRaw.BuyPrice >= SellerPrice && buyRaw.RemainingQuantity > 0
+                              where buyRaw.BuyPrice >= SellerPrice && buyRaw.RemainingQuantity > 0 //&& buyRaw.TransactionStatus!=canclecode
                               orderby buyRaw.InsertTime
                               select buyRaw;
 
@@ -52,7 +50,7 @@ namespace Transaction.Infrastructure.Repository
                     return null;
                 }               
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

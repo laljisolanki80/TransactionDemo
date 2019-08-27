@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using Transaction.Domain.DomainEvents;
-using Transaction.Domain.Enum;
 
 namespace Transaction.Domain.AggreagatesModels.Aggregate
 {
@@ -29,32 +26,32 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
             SellQuantity = sellQuantity;
             RemainingQuantity = sellQuantity;
             InsertTime = DateTime.Now;
-            TransactionStatus = TransactionStatus.Hold;
+            TransactionStatus = TransactionStatus.Initialise;
         }
         public void StatusChangeToSettleStatus()
         {
             TransactionStatus = TransactionStatus.Success;
             AddDomainEvent(new TransactionSettleDomainEvent(TransactionStatus));
         }
-        public void StatusChangeToPartialSettleStatus()
-        {
-            TransactionStatus = TransactionStatus.PartialSettle;
-            AddDomainEvent(new TransactionPartialSettleDomainEvent(TransactionStatus));
-        }
+        //public void StatusChangeToPartialSettleStatus()
+        //{
+        //    TransactionStatus = TransactionStatus.PartialSettle;
+        //    AddDomainEvent(new TransactionPartialSettleDomainEvent(TransactionStatus));
+        //}
         public void StatusChangeToOnHoldStatus()
         {
-            TransactionStatus = TransactionStatus.Hold;
+            TransactionStatus = TransactionStatus.Pending;
 
             AddDomainEvent(new TransactionOnHoldDomainEvent(TransactionStatus));
         }
         public void StatusChangeToFailedStatus()
         {
-            TransactionStatus = TransactionStatus.OperatorFail;
+            TransactionStatus = TransactionStatus.Validationfail;
             AddDomainEvent(new TransactionFailedDomainEvent(TransactionStatus));
         }
         public void StatusChangeToCancleStatus() //by lalji 23/08/2019
         {
-            TransactionStatus = TransactionStatus.Cancel;
+            TransactionStatus = TransactionStatus.ProviderFail;
             AddDomainEvent(new TransactionCancelDomainEvent(TransactionStatus));
         }
 
