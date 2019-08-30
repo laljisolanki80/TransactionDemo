@@ -29,7 +29,7 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
             SellQuantity = sellQuantity;
             RemainingQuantity = sellQuantity;
             InsertTime = DateTime.Now;
-            TransactionStatus = TransactionStatus.Hold;
+            TransactionStatus = TransactionStatus.Pending;
         }
         public void StatusChangeToSettleStatus()
         {
@@ -38,18 +38,18 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         }
         public void StatusChangeToPartialSettleStatus()
         {
-            TransactionStatus = TransactionStatus.PartialSettle;
+            TransactionStatus = TransactionStatus.Initialise;
             AddDomainEvent(new TransactionPartialSettleDomainEvent(TransactionStatus));
         }
         public void StatusChangeToOnHoldStatus()
         {
-            TransactionStatus = TransactionStatus.Hold;
+            TransactionStatus = TransactionStatus.Pending;
 
             AddDomainEvent(new TransactionOnHoldDomainEvent(TransactionStatus));
         }
         public void StatusChangeToFailedStatus()
         {
-            TransactionStatus = TransactionStatus.OperatorFail;
+            TransactionStatus = TransactionStatus.ProviderFail;
             AddDomainEvent(new TransactionFailedDomainEvent(TransactionStatus));
         }
         public void StatusChangeToCancleStatus() //by lalji 23/08/2019

@@ -32,7 +32,7 @@ namespace Transaction.Infrastructure.Service
                 {
                     BizResponse bizResponse = new BizResponse();
                     bizResponse.ErrorCode = Domain.Enum.enErrorCode.TransactionNotFoundError;
-                    bizResponse.StatusCode = (int)TransactionStatus.OperatorFail;
+                    bizResponse.StatusCode = (int)TransactionStatus.ProviderFail;
                     bizResponse.StatusMessage = "transaction not found";
 
                     return bizResponse;
@@ -52,7 +52,7 @@ namespace Transaction.Infrastructure.Service
             }
             catch(Exception)
             {
-                return (new BizResponse {ErrorCode = enErrorCode.InternalError,StatusMessage="Internel error",StatusCode=(int)TransactionStatus.OperatorFail }); 
+                return (new BizResponse {ErrorCode = enErrorCode.InternalError,StatusMessage="Internel error",StatusCode=(int)TransactionStatus.ProviderFail }); 
             }
         }
 

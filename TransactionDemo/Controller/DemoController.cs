@@ -30,7 +30,7 @@ namespace TransactionDemo.Controller
 
             var BaseAddress = _remoteUrl; // the remote url
 
-            return null;
+            return Ok("Message");
         }
 
     }

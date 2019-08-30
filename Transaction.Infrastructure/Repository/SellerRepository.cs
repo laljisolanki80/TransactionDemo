@@ -68,7 +68,7 @@ namespace Transaction.Infrastructure.Repository
        public async Task<SellerData> GetSellerById(TransactionCancelModel transactionCancelModel)
         {
             var find = from sellRaw in _transactionDbContext.SellerDatas
-                       where sellRaw.SellerId == Guid.Parse(transactionCancelModel.Id) && sellRaw.TransactionStatus == TransactionStatus.Hold
+                       where sellRaw.SellerId == Guid.Parse(transactionCancelModel.Id) && sellRaw.TransactionStatus == TransactionStatus.Pending
 
                        select sellRaw;
 
