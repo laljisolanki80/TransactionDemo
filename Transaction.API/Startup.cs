@@ -1,4 +1,6 @@
-﻿using EventBusRabbitMQ.Interfaces;
+﻿using EventBusRabbitMQ.EventHandlers;
+using EventBusRabbitMQ.Events;
+using EventBusRabbitMQ.Interfaces;
 using EventBusRabbitMQ.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -77,6 +79,11 @@ namespace Transaction.API
 
 
 
+        }
+        public void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+           // eventBus.Subscribe<IEventBus, IEventBusSubscriptionsManager>();    
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -50,7 +50,7 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
         }
         public void StatusChangeToCancleStatus() //by lalji
         {
-            TransactionStatus = TransactionStatus.Cancel;
+            TransactionStatus = TransactionStatus;//set TransactionStatus.cancel status here
             AddDomainEvent(new TransactionCancelDomainEvent(TransactionStatus));
         }
         public void InsertDateAndTime()
