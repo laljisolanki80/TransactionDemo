@@ -25,32 +25,32 @@ namespace Transaction.Domain.AggreagatesModels.Aggregate
             BuyQuantity = buyQuantity;
             RemainingQuantity = buyQuantity;
             InsertTime = DateTime.Now;
-            TransactionStatus = TransactionStatus.Hold;
+            TransactionStatus = TransactionStatus.Initialise;
         }
         public void StatusChangeToSettleStatus()
         {
             TransactionStatus = TransactionStatus.Success;
             AddDomainEvent(new TransactionSettleDomainEvent(TransactionStatus));
         }
-        public void StatusChangeToPartialSettleStatus()
-        {
-            TransactionStatus = TransactionStatus.PartialSettle;
-            AddDomainEvent(new TransactionPartialSettleDomainEvent(TransactionStatus));
-        }
+        //public void StatusChangeToPartialSettleStatus()
+        //{
+        //    TransactionStatus = TransactionStatus.PartialSettle;
+        //    AddDomainEvent(new TransactionPartialSettleDomainEvent(TransactionStatus));
+        //}
         public void StatusChangeToOnHoldStatus()
         {
-            TransactionStatus = TransactionStatus.Hold;
+            TransactionStatus = TransactionStatus.Pending;
 
             AddDomainEvent(new TransactionOnHoldDomainEvent(TransactionStatus));
         }
         public void StatusChangeToFailedStatus()
         {
-            TransactionStatus = TransactionStatus.OperatorFail;
+            TransactionStatus = TransactionStatus.Validationfail;
             AddDomainEvent(new TransactionFailedDomainEvent(TransactionStatus));
         }
-        public void StatusChangeToCancleStatus() //by lalji
+        public void StatusChangeToCancleStatus() //by lalji 23/08/2019
         {
-            TransactionStatus = TransactionStatus;//set TransactionStatus.cancel status here
+            TransactionStatus = TransactionStatus.ProviderFail;
             AddDomainEvent(new TransactionCancelDomainEvent(TransactionStatus));
         }
         public void InsertDateAndTime()

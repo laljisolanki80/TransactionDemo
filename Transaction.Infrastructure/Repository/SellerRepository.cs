@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Transaction.Domain.AggreagatesModels.Aggregate;
 using Transaction.Domain.IRepository;
@@ -25,7 +23,7 @@ namespace Transaction.Infrastructure.Repository
         public async Task<List<SellerData>> GetGreterBuyerPriceListFromSellerPrice(decimal BuyerPrice)
         {
             var compare = from sellRaw in _transactionDbContext.SellerDatas
-                          where sellRaw.SellPrice <= BuyerPrice
+                          where sellRaw.SellPrice <= BuyerPrice && sellRaw.RemainingQuantity > 0 //&& sellRaw.TransactionStatus!=canclecode
                           orderby sellRaw.InsertTime
                           select sellRaw;
 
@@ -51,7 +49,7 @@ namespace Transaction.Infrastructure.Repository
                     return null;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }       
