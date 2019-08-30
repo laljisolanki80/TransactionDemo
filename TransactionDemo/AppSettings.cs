@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TransactionDemo
 {
-    public class appsettings
+    public class AppSettings
     {
         public string OcelotUrl { get; set; }
     }

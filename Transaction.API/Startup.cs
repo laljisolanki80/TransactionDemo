@@ -25,7 +25,7 @@ namespace Transaction.API
         }
 
         public IConfiguration Configuration { get; }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -40,7 +40,7 @@ namespace Transaction.API
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
             services.AddMediatR(typeof(Startup));
             AddRabbitMQConfigs(services);
-     
+
         }
 
         private void AddRabbitMQConfigs(IServiceCollection services)
@@ -83,14 +83,14 @@ namespace Transaction.API
         public void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-           // eventBus.Subscribe<IEventBus, IEventBusSubscriptionsManager>();    
+            // eventBus.Subscribe<IEventBus, IEventBusSubscriptionsManager>();    
         }
-        
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-            public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                //add appsettings.json by Lalji  12/08/2019
+               //add appsettings.json by Lalji  12/08/2019
                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
             if (env.IsDevelopment())

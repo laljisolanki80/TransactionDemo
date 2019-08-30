@@ -1,22 +1,16 @@
 {
   "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/api/{version}/{everything}",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 50392
+          "Port": 57553
         }
       ],
-      "UpstreamPathTemplate": "/api/{version}/c/{everything}",
+      "UpstreamPathTemplate": "/api/{everything}",
       "UpstreamHttpMethod": [ "Post" ]
     }
-  ],
-
-  "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:50392",
-    "RequestIdKey": "OcRequestId",
-    "AdministrationPath": "/administration"
-  }
+  ]
 }
