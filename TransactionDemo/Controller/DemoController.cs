@@ -22,7 +22,7 @@ namespace TransactionDemo.Controller
         {
             //remote url of ocelot API as middleware communication for TransactionAPI by lalji 31-08-2019 
             _settings = settings;
-            _remoteUrl = $"{settings.Value.OcelotUrl}/api/Transaction";
+            _remoteUrl = $"{settings.Value.OcelotUrl}/api/o/Transaction";
 
         }
 

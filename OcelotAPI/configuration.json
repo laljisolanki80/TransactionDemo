@@ -9,7 +9,7 @@
           "Port": 57553
         }
       ],
-      "UpstreamPathTemplate": "/api/{everything}",
+      "UpstreamPathTemplate": "/api/o/{everything}",
       "UpstreamHttpMethod": [ "Post" ]
     }
   ]
