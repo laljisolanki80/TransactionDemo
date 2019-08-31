@@ -40,7 +40,7 @@ namespace TransactionDemo.Controller
             httpResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             httpResponse.EnsureSuccessStatusCode();
             string responseBody = await httpResponse.Content.ReadAsStringAsync();
-            
+
             //convert responseBody to BizResponse by lalji 31-08-2019
             ViewModels.BizResponse bizResponse = JsonConvert.DeserializeObject<BizResponse>(responseBody);
             return Ok(bizResponse);
@@ -80,7 +80,7 @@ namespace TransactionDemo.Controller
             httpResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             httpResponse.EnsureSuccessStatusCode();
             string responseBody = await httpResponse.Content.ReadAsStringAsync();
-            
+
             //convert responseBody to BizResponse by lalji 31-08-2019
             ViewModels.BizResponse bizResponse = JsonConvert.DeserializeObject<BizResponse>(responseBody);
             return Ok(bizResponse);
@@ -99,7 +99,7 @@ namespace TransactionDemo.Controller
             httpResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             httpResponse.EnsureSuccessStatusCode();
             string responseBody = await httpResponse.Content.ReadAsStringAsync();
-           
+
             //convert responseBody to BizResponse by lalji 31-08-2019
             ViewModels.BizResponse bizResponse = JsonConvert.DeserializeObject<BizResponse>(responseBody);
             return Ok(bizResponse);
